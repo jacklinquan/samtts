@@ -196,7 +196,7 @@ SamTTS().play(
 ```
 
 There are more examples in
-[examples](https://github.com/jacklinquan/samtts/tree/master/examples)
+[examples](https://github.com/jacklinquan/samtts/tree/main/examples)
 directory.
 
 ### Use `samtts` with command line interface
@@ -370,9 +370,9 @@ please fork it and start a new project.
 ## About license
 
 According to
-[Stefan Macke](https://github.com/jacklinquan/samtts/blob/master/Stefan_Macke_SAM_README.md)
+[Stefan Macke](https://github.com/jacklinquan/samtts/blob/main/Stefan_Macke_SAM_README.md)
 and
-[Vidar Hokstad](https://github.com/jacklinquan/samtts/blob/master/Vidar_Hokstad_SAM_README.md)
+[Vidar Hokstad](https://github.com/jacklinquan/samtts/blob/main/Vidar_Hokstad_SAM_README.md)
 the status of the original software can be best described as
 [Abandonware](https://en.wikipedia.org/wiki/Abandonware).
 
