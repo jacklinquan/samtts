@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="A python port of Software Automatic Mouth Test-To-Speech program." /><meta name="author" content="Quan Lin" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>SAMTTS</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> SAMTTS
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-is-sam">What is SAM?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#use-samtts-in-python-script">Use samtts in Python script</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#use-samtts-with-command-line-interface">Use samtts with command line interface</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-information">Useful information</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#phonemes">Phonemes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pitches">Pitches</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#characters">Characters</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#further-development">Further development</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#about-license">About license</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="api/">API Reference</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">SAMTTS</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="samtts">SAMTTS</h1>
+<p><a href="https://badge.fury.io/py/samtts"><img alt="PyPI version" src="https://badge.fury.io/py/samtts.svg" /></a>
+<a href="https://pepy.tech/project/samtts"><img alt="Downloads" src="https://pepy.tech/badge/samtts" /></a></p>
+<p><a href="https://jacklinquan.github.io/samtts">Documentation</a></p>
+<p>A Python port of Software Automatic Mouth Test-To-Speech program.</p>
+<ul>
+<li>Ported by: Quan Lin</li>
+<li>License: None</li>
+</ul>
+<p><strong><em>WARNING</em></strong>:
+This project is not under any open source software license.
+Use it at your own risk.</p>
+<hr />
+<h2 id="what-is-sam">What is SAM?</h2>
+<p>SAM is the Text-To-Speech (TTS) software SAM (Software Automatic Mouth) for the Commodore C64
+published in the year 1982 by Don't Ask Software (now SoftVoice, Inc.).</p>
+<p>This project is an unofficial Python port of SAM. It is translated by hand from the adaption to C by
+<a href="https://github.com/s-macke/SAM">Stefan Macke</a>
+and the refactorings by 
+<a href="https://github.com/vidarh/SAM">Vidar Hokstad</a>.</p>
+<hr />
+<h2 id="installation">Installation</h2>
+<pre><code class="language-shell">pip install samtts
+</code></pre>
+<hr />
+<h2 id="usage">Usage</h2>
+<h3 id="use-samtts-in-python-script">Use <code>samtts</code> in Python script</h3>
+<p>The minimum example:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+SamTTS().play(&quot;Hello. My name is Sam.&quot;)
+</code></pre>
+<p>A conversation between Sam and Little Robot:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+# The default config is Sam.
+sam = SamTTS()
+# Config SamTTS for a different character.
+robot = SamTTS(speed=92, pitch=60, mouth=190, throat=190)
+
+sam.play(&quot;Hello. Little Robot. How are you today?&quot;)
+robot.play(&quot;Hello! I am functioning well, thank you. How can I assist you today?&quot;)
+sam.play(&quot;Could you hand me the hammer please?&quot;)
+robot.play(&quot;Of course! Here you are.&quot;)
+sam.play(&quot;Thank you very much!&quot;)
+</code></pre>
+<p><code>SamTTS</code> does not pronouce all the words correctly.
+Sometimes you may want to use phonemes directly.
+Phonemes are powerful and flexible.
+But make sure the phonemes are valid, otherwise it will raise exceptions.</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+# Make SamTTS say &quot;Hello. My name is Sam.&quot; in phonemes.
+SamTTS().play(&quot;/HEHLOH3OW. MAY4 NEY4M IHZ SAE4M.&quot;, phonetic=True)
+</code></pre>
+<p>Make <code>SamTTS</code> sing:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+singer = SamTTS(speed=200, mouth=90, throat=90, sing_mode=True)
+for pitch in (52, 41, 34, 41, 52):
+    singer.play(&quot;AHAHAHAHAHAHAHAH&quot;, phonetic=True, pitch=pitch)
+</code></pre>
+<p>Save the audio data generated by <code>SamTTS</code> to a wav file:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+SamTTS().save(&quot;Hello. My name is Sam.&quot;, &quot;output.wav&quot;)
+</code></pre>
+<p>Use <code>SamTTS</code> with <code>asyncio</code>:</p>
+<pre><code class="language-python">import asyncio
+from samtts import SamTTS
+
+asyncio.run(SamTTS().async_play(&quot;Hello. My name is Sam.&quot;))
+</code></pre>
+<p>The core of <code>samtts</code> consists of <code>Reciter</code>, <code>Processor</code> and <code>Renderer</code>.
+<code>SamTTS</code> is a combination of the three.
+<code>Reciter</code> converts text to phonemes.
+<code>Processor</code> and <code>Renderer</code> turns phonemes into audio data in <code>bytearray</code>.
+But they can only process very short inputs.
+To work around this,
+<code>SamTTS</code> splits the input paragraph by punctuations <code>!,.:;?</code>.
+It works for most of the cases, but not always.
+You can design your own functions to split the input paragraph.</p>
+<p>Make <code>SamTTS</code> read the paragraph word by word:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+def iter_by_space(paragraph):
+    for item in paragraph.split():
+        yield item
+
+SamTTS().play(
+    &quot;Hello. My name is Sam.&quot;,
+    iter_segments_from_paragraph = iter_by_space,
+)
+</code></pre>
+<p>In case you know your input is very small,
+you do not have to split it at all:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+def iter_no_split(paragraph):
+    yield paragraph
+
+SamTTS().play(
+    &quot;Hello. My name is Sam.&quot;,
+    iter_segments_from_paragraph = iter_no_split,
+)
+</code></pre>
+<p>By default <code>SamTTS</code> saves audio data in wav format.
+But you can design your own save function
+to save audio data in other formats:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+# Make sure this function signature is followed.
+def save_audio_data_in_other_formats(
+    audio_data: bytes | bytearray,
+    output_file_path: str,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    ...
+
+SamTTS().save(
+    &quot;Hello. My name is Sam.&quot;,
+    &quot;output.ext&quot;,
+    save_audio_data = save_audio_data_in_other_formats,
+)
+</code></pre>
+<p>By default <code>SamTTS</code> plays audio with <code>simpleaudio</code> backend.
+But you can design your own play audio function
+to play audio with other audio backends:</p>
+<pre><code class="language-python">from samtts import SamTTS
+
+# Make sure this function signature is followed.
+def play_audio_data_with_other_backends(
+    audio_data: bytes | bytearray,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    ...
+
+SamTTS().play(
+    &quot;Hello. My name is Sam.&quot;,
+    play_audio_data = play_audio_data_with_other_backends,
+)
+</code></pre>
+<p>There are more examples in
+<a href="https://github.com/jacklinquan/samtts/tree/master/examples">examples</a>
+directory.</p>
+<h3 id="use-samtts-with-command-line-interface">Use <code>samtts</code> with command line interface</h3>
+<p>To get help information:</p>
+<pre><code class="language-shell">python -m samtts
+</code></pre>
+<pre><code class="language-text"> Usage: python -m samtts [OPTIONS] [INPUT_STRING]
+
+ A python port of Software Automatic Mouth Test-To-Speech program.
+ - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other  
+ options are ignored.
+ - If `--phonetic` is used, the input must be valid phonemes.
+
+╭─ Arguments ────────────────────────────────────────────────────────────────────╮
+│   input_string      [INPUT_STRING]  Input text or phonemes.                    │
+╰────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ──────────────────────────────────────────────────────────────────────╮
+│ --phoneme-info          --no-phoneme-info             Show phoneme info.       │
+│                                                       [default:                │
+│                                                       no-phoneme-info]         │
+│ --pitch-info            --no-pitch-info               Show pitch info.         │
+│                                                       [default: no-pitch-info] │
+│ --phonetic              --no-phonetic                 Set phonetic flag.       │
+│                                                       [default: no-phonetic]   │
+│ --speed                                      INTEGER  Set speed value.         │
+│                                                       [default: 72]            │
+│ --pitch                                      INTEGER  Set pitch value.         │
+│                                                       [default: 64]            │
+│ --mouth                                      INTEGER  Set mouth value.         │
+│                                                       [default: 128]           │
+│ --throat                                     INTEGER  Set throat value.        │
+│                                                       [default: 128]           │
+│ --sing                  --no-sing                     Set sing mode.           │
+│                                                       [default: no-sing]       │
+│ --sample-rate                                INTEGER  Set sample rate 11025 or │
+│                                                       22050.                   │
+│                                                       [default: 22050]         │
+│ --wav                                        TEXT     Set output wav file name │
+│                                                       or path.                 │
+│ --debug                 --no-debug                    Set debug flag.          │
+│                                                       [default: no-debug]      │
+│ --install-completion                                  Install completion for   │
+│                                                       the current shell.       │
+│ --show-completion                                     Show completion for the  │
+│                                                       current shell, to copy   │
+│                                                       it or customize the      │
+│                                                       installation.            │
+│ --help                                                Show this message and    │
+│                                                       exit.                    │
+╰────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+<p>The minimum example:</p>
+<pre><code class="language-shell">python -m samtts &quot;Hello. My name is Sam.&quot;
+</code></pre>
+<p>To config its voice:</p>
+<pre><code class="language-shell">python -m samtts --speed 92 --pitch 60 --mouth 190 --throat 190 &quot;Hello. My name is Little Robot.&quot;
+</code></pre>
+<p>To save to a wav file:</p>
+<pre><code class="language-shell">python -m samtts --wav &quot;output.wav&quot; &quot;Hello. My name is Sam.&quot;
+</code></pre>
+<hr />
+<h2 id="useful-information">Useful information</h2>
+<h3 id="phonemes">Phonemes</h3>
+<pre><code class="language-text">                 Phoneme Information
+
+     VOWELS                             VOICED CONSONANTS
+IY           f(ee)t                     R        red
+IH           p(i)n                      L        allow
+EH           beg                        W        away
+AE           Sam                        W        whale
+AA           pot                        Y        you
+AH           b(u)dget                   M        Sam
+AO           t(al)k                     N        man
+OH           cone                       NX       so(ng)
+UH           book                       B        bad
+UX           l(oo)t                     D        dog
+ER           bird                       G        again
+AX           gall(o)n                   J        judge
+IX           dig(i)t                    Z        zoo
+                                        ZH       plea(s)ure
+   DIPHTHONGS                           V        seven
+EY           m(a)de                     DH       (th)en
+AY           h(igh)
+OY           boy
+AW           h(ow)                      UNVOICED CONSONANTS
+OW           slow                       S         Sam
+UW           crew                       Sh        fish
+                                        F         fish
+                                        TH        thin
+ SPECIAL PHONEMES                       P         poke
+UL           sett(le) (=AXL)            T         talk
+UM           astron(omy) (=AXM)         K         cake
+UN           functi(on) (=AXN)          CH        speech
+Q            kitt-en (glottal stop)     /H        a(h)ead
+</code></pre>
+<h3 id="pitches">Pitches</h3>
+<pre><code class="language-text">                  Pitch Information
+
+PITCH   NOTE    |   PITCH   NOTE    |   PITCH   NOTE
+ 104     C1     |     52     C2     |     26     C3
+  92     D1     |     46     D2     |     23     D3
+  82     E1     |     41     E2     |     21     E3
+  78     F1     |     39     F2     |     19     F3
+  68     G1     |     34     G2     |     17     G3
+  62     A1     |     31     A2     |
+  55     B1     |     28     B2     |
+</code></pre>
+<h3 id="characters">Characters</h3>
+<pre><code class="language-text">DESCRIPTION         SPEED   PITCH   MOUTH   THROAT
+Elf                  72      64      160     110
+Little Robot         92      60      190     190
+Stuffy Guy           82      72      105     110
+Little Old Lady      82      32      145     145
+Extra-Terrestrial   100      64      200     150
+SAM                  72      64      128     128
+</code></pre>
+<hr />
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>SAM was developed more than 40 years ago.
+  It was advanced in 1980s.
+  But now its sound quality is not comparable to AI based TTS programs.</li>
+<li>The core of SAM can only process very short inputs.
+  To work around this, long inputs must be split.</li>
+<li>SAM does not pronouce all the words correctly.
+  To work around this, phonemes can be used directly.
+  But make sure the phonemes are valid, otherwise it will raise exceptions.</li>
+</ul>
+<hr />
+<h2 id="further-development">Further development</h2>
+<p>This project is meant to be a fairly faithful port of the original SAM.
+It will not improve upon SAM in any manner,
+like improving the quality of the sound or
+breaking the limitations of SAM.</p>
+<p>The further development of this project is limited to bug fixing.
+If anyone is interested in improving it,
+please fork it and start a new project.</p>
+<hr />
+<h2 id="about-license">About license</h2>
+<p>According to
+<a href="https://github.com/jacklinquan/samtts/blob/master/Stefan_Macke_SAM_README.md">Stefan Macke</a>
+and
+<a href="https://github.com/jacklinquan/samtts/blob/master/Vidar_Hokstad_SAM_README.md">Vidar Hokstad</a>
+the status of the original software can be best described as
+<a href="https://en.wikipedia.org/wiki/Abandonware">Abandonware</a>.</p>
+<p>Neither Stefan Macke nor Vidar Hokstad put their projects under any open source software license.
+As long this is the case I cannot put my code under any open source software license either.
+However the software might be used under the
+<a href="https://en.wikipedia.org/wiki/FAIR_USE_Act">"Fair Use" act</a>
+in the USA.</p>
+<hr />
+<h2 id="references">References</h2>
+<p><a href="https://en.wikipedia.org/wiki/Software_Automatic_Mouth">Software Automatic Mouth on wikipedia</a></p>
+<p><a href="https://github.com/s-macke/SAM">SAM in C by Stefan Macke</a></p>
+<p><a href="https://github.com/vidarh/SAM">Refactored SAM in C by Vidar Hokstad</a></p>
+<p><a href="https://github.com/discordier/sam">SAM in Javascript by Christian Schiffler</a></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="api/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2025 <a href="https://github.com/jacklinquan">Quan Lin</a>.</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jacklinquan/samtts" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+      <span><a href="api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-03-29 04:36:58.269876+00:00
+-->
