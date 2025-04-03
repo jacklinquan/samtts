@@ -19,6 +19,8 @@ A Python port of Software Automatic Mouth Test-To-Speech program.
 This project is not under any open source software license.
 Use it at your own risk.
 
+It is only tested on Windows for now.
+
 ---
 
 ## What is SAM?
