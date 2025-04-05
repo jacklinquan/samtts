@@ -4,13 +4,13 @@ SamTTS combines Reciter, Processor and Renderer together.
 """
 
 from __future__ import annotations
-from typing import Iterable, Callable, Awaitable
-import wave
-import asyncio
 
 try:
+    from typing import Iterable, Callable, Awaitable
+    import wave
+    import asyncio
     import simpleaudio
-except ModuleNotFoundError:
+except ImportError:
     pass
 
 from .reciter import Reciter

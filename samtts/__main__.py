@@ -8,7 +8,7 @@ from __future__ import annotations
 try:
     import typer
     from typing_extensions import Annotated
-except ModuleNotFoundError:
+except ImportError:
     pass
 
 from .samtts import SamTTS
@@ -85,7 +85,7 @@ def app_main(
     wav: Annotated[str, typer.Option(help="Set output wav file name or path.")] = "",
     debug: Annotated[bool, typer.Option(help="Set debug flag.")] = False,
 ):
-    """A python port of Software Automatic Mouth Test-To-Speech program.
+    """A Python port of Software Automatic Mouth Test-To-Speech program.
 
     - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other options are ignored.
 

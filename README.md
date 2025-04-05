@@ -19,7 +19,7 @@ A Python port of Software Automatic Mouth Test-To-Speech program.
 This project is not under any open source software license.
 Use it at your own risk.
 
-It is only tested on Windows for now.
+It is tested on Windows with `Python 3.11.9`.
 
 ---
 
@@ -176,7 +176,8 @@ SamTTS().save(
 ```
 
 By default `SamTTS` plays audio with `simpleaudio` backend.
-But you can design your own play audio function
+In case `simpleaudio` does not work for your platform,
+you can design your own play audio function
 to play audio with other audio backends:
 
 ```python
@@ -197,6 +198,40 @@ SamTTS().play(
 )
 ```
 
+The core of `samtts` (`Reciter`, `Processor` and `Renderer`)
+does not depend on any 3rd party or even built-in libraries.
+For finer control, you can use them directly:
+
+```python
+import simpleaudio
+from samtts import Reciter, Processor, Renderer
+
+reciter = Reciter()
+processor = Processor()
+renderer = Renderer()
+
+input_text = "Hello. My name is Sam. How are you?"
+print(f"{input_text = }")
+
+phonemes = reciter.text_to_phonemes(input_text)
+print(f"{phonemes = }")
+
+processor.process(phonemes)
+renderer.render(processor)
+
+print(f"{renderer.buffer_end = }")
+print(f"The first 100 bytes in the buffer: {renderer.buffer[: 100]}")
+
+play_obj = simpleaudio.play_buffer(
+    renderer.buffer[: renderer.buffer_end],
+    num_channels=1,
+    bytes_per_sample=1,
+    sample_rate=22050,
+)
+while play_obj.is_playing():
+    pass
+```
+
 There are more examples in
 [examples](https://github.com/jacklinquan/samtts/tree/main/examples)
 directory.
@@ -212,7 +247,7 @@ python -m samtts
 ```text
  Usage: python -m samtts [OPTIONS] [INPUT_STRING]
 
- A python port of Software Automatic Mouth Test-To-Speech program.
+ A Python port of Software Automatic Mouth Test-To-Speech program.
  - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other  
  options are ignored.
  - If `--phonetic` is used, the input must be valid phonemes.

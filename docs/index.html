@@ -115,6 +115,7 @@
 <p><strong><em>WARNING</em></strong>:
 This project is not under any open source software license.
 Use it at your own risk.</p>
+<p>It is tested on Windows with <code>Python 3.11.9</code>.</p>
 <hr />
 <h2 id="what-is-sam">What is SAM?</h2>
 <p>SAM is the Text-To-Speech (TTS) software SAM (Software Automatic Mouth) for the Commodore C64
@@ -231,7 +232,8 @@ SamTTS().save(
 )
 </code></pre>
 <p>By default <code>SamTTS</code> plays audio with <code>simpleaudio</code> backend.
-But you can design your own play audio function
+In case <code>simpleaudio</code> does not work for your platform,
+you can design your own play audio function
 to play audio with other audio backends:</p>
 <pre><code class="language-python">from samtts import SamTTS
 
@@ -249,6 +251,37 @@ SamTTS().play(
     play_audio_data = play_audio_data_with_other_backends,
 )
 </code></pre>
+<p>The core of <code>samtts</code> (<code>Reciter</code>, <code>Processor</code> and <code>Renderer</code>)
+does not depend on any 3rd party or even built-in libraries.
+For finer control, you can use them directly:</p>
+<pre><code class="language-python">import simpleaudio
+from samtts import Reciter, Processor, Renderer
+
+reciter = Reciter()
+processor = Processor()
+renderer = Renderer()
+
+input_text = &quot;Hello. My name is Sam. How are you?&quot;
+print(f&quot;{input_text = }&quot;)
+
+phonemes = reciter.text_to_phonemes(input_text)
+print(f&quot;{phonemes = }&quot;)
+
+processor.process(phonemes)
+renderer.render(processor)
+
+print(f&quot;{renderer.buffer_end = }&quot;)
+print(f&quot;The first 100 bytes in the buffer: {renderer.buffer[: 100]}&quot;)
+
+play_obj = simpleaudio.play_buffer(
+    renderer.buffer[: renderer.buffer_end],
+    num_channels=1,
+    bytes_per_sample=1,
+    sample_rate=22050,
+)
+while play_obj.is_playing():
+    pass
+</code></pre>
 <p>There are more examples in
 <a href="https://github.com/jacklinquan/samtts/tree/main/examples">examples</a>
 directory.</p>
@@ -258,7 +291,7 @@ directory.</p>
 </code></pre>
 <pre><code class="language-text"> Usage: python -m samtts [OPTIONS] [INPUT_STRING]
 
- A python port of Software Automatic Mouth Test-To-Speech program.
+ A Python port of Software Automatic Mouth Test-To-Speech program.
  - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other  
  options are ignored.
  - If `--phonetic` is used, the input must be valid phonemes.
@@ -459,5 +492,5 @@ in the USA.</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-03-29 06:12:31.150029+00:00
+Build Date UTC : 2025-04-05 03:10:56.208301+00:00
 -->

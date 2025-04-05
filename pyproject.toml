@@ -24,8 +24,8 @@ dev = ["simpleaudio", "typer", "pytest", "mkdocs", "mkdocstrings-python", "black
 [project.urls]
 Homepage = "https://github.com/jacklinquan/samtts"
 
-# [project.scripts]
-# samtts = "samtts.__main__:main"
+[project.scripts]
+samtts = "samtts.__main__:main"
 
 [tool.setuptools]
 packages = ["samtts"]

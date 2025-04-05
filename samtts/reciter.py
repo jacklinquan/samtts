@@ -6,22 +6,23 @@ Reciter converts text to phonemes.
 from __future__ import annotations
 
 
-tab36376 = bytes([
-    0, 0, 0, 0, 0, 0, 0, 0, # 0-7
-    0, 0, 0, 0, 0, 0, 0, 0, # 8-15
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 2, 2, 2, 2, 2, 2, 130, # ' ', '!'
-    0, 0, 2, 2, 2, 2, 2, 2,
-    3, 3, 3, 3, 3, 3, 3, 3,
-    3, 3, 2, 2, 2, 2, 2, 2,
-    2, 192, 168, 176, 172, 192, 160, 184, # '@', 'A'
-    160, 192, 188, 160, 172, 168, 172, 192,
-    160, 160, 172, 180, 164, 192, 168, 168,
-    176, 192, 188, 0, 0, 0, 2, 0, # 'X', 'Y', 'Z', '[',
-    32, 32, 155, 32, 192, 185, 32, 205,
-    163, 76, 138, 142
-])
+# tab36376 = bytes([
+#     0, 0, 0, 0, 0, 0, 0, 0, # 0-7
+#     0, 0, 0, 0, 0, 0, 0, 0, # 8-15
+#     0, 0, 0, 0, 0, 0, 0, 0,
+#     0, 0, 0, 0, 0, 0, 0, 0,
+#     0, 2, 2, 2, 2, 2, 2, 130, # ' ', '!'
+#     0, 0, 2, 2, 2, 2, 2, 2,
+#     3, 3, 3, 3, 3, 3, 3, 3,
+#     3, 3, 2, 2, 2, 2, 2, 2,
+#     2, 192, 168, 176, 172, 192, 160, 184, # '@', 'A'
+#     160, 192, 188, 160, 172, 168, 172, 192,
+#     160, 160, 172, 180, 164, 192, 168, 168,
+#     176, 192, 188, 0, 0, 0, 2, 0, # 'X', 'Y', 'Z', '[',
+#     32, 32, 155, 32, 192, 185, 32, 205,
+#     163, 76, 138, 142
+# ])
+tab36376 = b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x02\x02\x02\x02\x02\x82\x00\x00\x02\x02\x02\x02\x02\x02\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x02\x02\x02\x02\x02\x02\x02\xc0\xa8\xb0\xac\xc0\xa0\xb8\xa0\xc0\xbc\xa0\xac\xa8\xac\xc0\xa0\xa0\xac\xb4\xa4\xc0\xa8\xa8\xb0\xc0\xbc\x00\x00\x00\x02\x00  \x9b \xc0\xb9 \xcd\xa3L\x8a\x8e"
 
 
 # temp_rules_list = [
@@ -552,19 +553,21 @@ rules2 = b'(A)\xbd(!)=\xae(") =-AH5NKWOWT\xad(")=KWOW4T\xad(#)= NAH4MBE\xd2($)= 
 
 # 26 items. From 'A' to 'Z'
 # positions for mem62 and mem63 for each character
-tab37489 = bytes([
-    0, 149, 247, 162, 57, 197, 6, 126,
-    199, 38, 55, 78, 145, 241, 85, 161,
-    254, 36, 69, 45, 167, 54, 83, 46,
-    71, 218
-])
+# tab37489 = bytes([
+#     0, 149, 247, 162, 57, 197, 6, 126,
+#     199, 38, 55, 78, 145, 241, 85, 161,
+#     254, 36, 69, 45, 167, 54, 83, 46,
+#     71, 218
+# ])
+tab37489 = b"\x00\x95\xf7\xa29\xc5\x06~\xc7&7N\x91\xf1U\xa1\xfe$E-\xa76S.G\xda"
 
-tab37515 = bytes([
-    125, 126, 126, 127, 128, 129, 130, 130,
-    130, 132, 132, 132, 132, 132, 133, 135,
-    135, 136, 136, 137, 138, 139, 139, 140,
-    140, 140
-])
+# tab37515 = bytes([
+#     125, 126, 126, 127, 128, 129, 130, 130,
+#     130, 132, 132, 132, 132, 132, 133, 135,
+#     135, 136, 136, 137, 138, 139, 139, 140,
+#     140, 140
+# ])
+tab37515 = b"}~~\x7f\x80\x81\x82\x82\x82\x84\x84\x84\x84\x84\x85\x87\x87\x88\x88\x89\x8a\x8b\x8b\x8c\x8c\x8c"
 
 
 class Reciter:
@@ -574,40 +577,36 @@ class Reciter:
         debug:
             Set or clear debug flag.
     """
-    
-    def __init__(self, debug: bool=False):
+
+    def __init__(self, debug: bool = False):
         self._a = 0
         self._x = 0
         self._y = 0
         self.debug = debug
 
-    
     def _code37055(self, m):
         self._x = m
-        self._x = (self._x-1) & 0xFF
+        self._x = (self._x - 1) & 0xFF
         self._a = self.input_copy[self._x]
         self._y = self._a
         self._a = tab36376[self._y]
-
 
     def _code37066(self, m):
         self._x = m
-        self._x = (self._x+1) & 0xFF
+        self._x = (self._x + 1) & 0xFF
         self._a = self.input_copy[self._x]
         self._y = self._a
         self._a = tab36376[self._y]
 
-
     def _get_rule_byte(self, m, y):
         address = m
-        
+
         if m >= 37541:
             address -= 37541
             return rules2[address + y]
-        
+
         address -= 32000
         return rules[address + y]
-
 
     def _print_rule(self, offset):
         i = 1
@@ -631,7 +630,6 @@ class Reciter:
 
         print()
 
-
     def text_to_phonemes(self, input_text: str | bytes | bytearray) -> bytearray:
         """Convert text to phonemes.
 
@@ -642,7 +640,7 @@ class Reciter:
         Returns:
             The phonemes bytearray.
         """
-        
+
         self._a = 0
         self._x = 0
         self._y = 0
@@ -650,17 +648,17 @@ class Reciter:
         m = 0
 
         self.input_copy = bytearray(256)
-        
+
         if isinstance(input_text, str):
             # Convert string to bytes
             input_text = input_text.encode("utf-8")
         elif not isinstance(input_text, (bytes, bytearray)):
             raise Exception("The type of input text must be str, bytes or bytearray.")
-        
+
         temp_input = input_text + b"["
-        
+
         input_text = bytearray(256)
-        input_text[:len(temp_input)] = bytearray(temp_input)
+        input_text[: len(temp_input)] = bytearray(temp_input)
         if len(input_text) > 256:
             input_text = input_text[:256]
             input_text[255] = ord("[")
@@ -680,8 +678,8 @@ class Reciter:
                 self._a = self._a & 79
 
             self.input_copy[self._x] = self._a
-            self._x = (self._x+1) & 0xFF  # X++;
-            self._y = (self._y+1) & 0xFF  # Y++;
+            self._x = (self._x + 1) & 0xFF  # X++;
+            self._y = (self._y + 1) & 0xFF  # Y++;
 
         self._x = 255
         self.input_copy[self._x] = 27
@@ -694,35 +692,35 @@ class Reciter:
                 j = 255
                 state = 36554
                 continue
-            
+
             elif state == 36554:
                 while True:
-                    n = (n+1) & 0xFF
+                    n = (n + 1) & 0xFF
                     self._x = n
                     self._a = self.input_copy[self._x]
                     k = self._a
                     if self._a == ord("["):
-                        j = (j+1) & 0xFF
+                        j = (j + 1) & 0xFF
                         self._x = j
                         self._a = 155
                         input_text[self._x] = 155
-                        return input_text[:input_text.find(b"\x9b")]
-                    
+                        return input_text[: input_text.find(b"\x9b")]
+
                     if self._a != ord("."):
                         break
 
-                    self._x = (self._x+1) & 0xFF
+                    self._x = (self._x + 1) & 0xFF
                     self._y = self.input_copy[self._x]
                     self._a = tab36376[self._y] & 1
 
                     if self._a != 0:
                         break
 
-                    j = (j+1) & 0xFF
+                    j = (j + 1) & 0xFF
                     self._x = j
                     self._a = ord(".")
                     input_text[self._x] = ord(".")
-                
+
                 self._a = k
                 self._y = self._a
                 self._a = tab36376[self._a]
@@ -739,7 +737,7 @@ class Reciter:
 
                 self._a = 32
                 self.input_copy[self._x] = ord(" ")
-                j = (j+1) & 0xFF
+                j = (j + 1) & 0xFF
                 self._x = j
                 if self._x > 120:
                     state = 36654
@@ -753,55 +751,55 @@ class Reciter:
                 input_text[self._x] = 155
                 self._a = n
                 # mem36653 = A
-                return input_text[:input_text.find(b"\x9b")]
-            
+                return input_text[: input_text.find(b"\x9b")]
+
             elif state == 36677:
                 self._a = h & 128
                 if self._a == 0:
                     return None
-                
+
                 # // go to the right rules for this character.
-                self._x = (k - ord("A") + 256) & 0xFF
+                self._x = (k - ord("A")) & 0xFF
                 g = tab37489[self._x] | (tab37515[self._x] << 8)
-                
+
                 # // -------------------------------------
                 # // go to next rule
                 # // -------------------------------------
                 state = 36700
                 continue
-            
+
             elif state == 36700:
                 # // find next rule
                 self._y = 0
-                g = (g+1) % 65536
+                g = (g + 1) % 65536
                 self._a = self._get_rule_byte(g, self._y)
                 while (self._a & 128) == 0:
-                    g = (g+1) % 65536
+                    g = (g + 1) % 65536
                     self._a = self._get_rule_byte(g, self._y)
-                self._y = (self._y+1) & 0xFF
+                self._y = (self._y + 1) & 0xFF
 
                 # // find '('
                 while True:
                     self._a = self._get_rule_byte(g, self._y)
                     if self._a == ord("("):
                         break
-                    self._y = (self._y+1) & 0xFF
+                    self._y = (self._y + 1) & 0xFF
                 p = self._y
 
                 # // find ')'
-                self._y = (self._y+1) & 0xFF
+                self._y = (self._y + 1) & 0xFF
                 self._a = self._get_rule_byte(g, self._y)
                 while self._a != ord(")"):
-                    self._y = (self._y+1) & 0xFF
+                    self._y = (self._y + 1) & 0xFF
                     self._a = self._get_rule_byte(g, self._y)
                 q = self._y
 
                 # // find '='
-                self._y = (self._y+1) & 0xFF
+                self._y = (self._y + 1) & 0xFF
                 self._a = self._get_rule_byte(g, self._y)
                 self._a = self._a & 127
                 while self._a != ord("="):
-                    self._y = (self._y+1) & 0xFF
+                    self._y = (self._y + 1) & 0xFF
                     self._a = self._get_rule_byte(g, self._y)
                     self._a = self._a & 127
                 k = self._y
@@ -811,7 +809,7 @@ class Reciter:
 
                 # // compare the string within the bracket
                 self._y = p
-                self._y = (self._y+1) & 0xFF
+                self._y = (self._y + 1) & 0xFF
                 flag_goto_36700 = False
                 while True:
                     h = self.input_copy[self._x]
@@ -820,30 +818,30 @@ class Reciter:
                         state = 36700
                         flag_goto_36700 = True
                         break
-                    
-                    self._y = (self._y+1) & 0xFF
+
+                    self._y = (self._y + 1) & 0xFF
                     if self._y == q:
                         break
-                    
-                    self._x = (self._x+1) & 0xFF
+
+                    self._x = (self._x + 1) & 0xFF
                     r = self._x
 
                 if flag_goto_36700:
                     continue
 
                 # // the string in the bracket is correct
-                
+
                 self._a = n
                 t = n
 
                 state = 36791
                 continue
-            
+
             elif state == 36791:
                 flag_goto_37180 = False
                 flag_goto_36700 = False
                 while True:
-                    p = (p-1) & 0xFF  # mem66--;
+                    p = (p - 1) & 0xFF  # mem66--;
                     self._y = p
                     self._a = self._get_rule_byte(g, self._y)
                     h = self._a
@@ -856,7 +854,7 @@ class Reciter:
                     self._a = tab36376[self._x] & 128
                     if self._a == 0:
                         break
-                    self._x = (t-1) & 0xFF  # X = mem59-1;
+                    self._x = (t - 1) & 0xFF  # X = mem59-1;
                     self._a = self.input_copy[self._x]
                     if self._a != h:
                         state = 36700
@@ -895,35 +893,35 @@ class Reciter:
                 if self._a == ord(":"):
                     state = 37040
                     continue
-                
+
                 # Error
                 return None
-            
+
             elif state == 36895:
                 self._code37055(t)
                 self._a = self._a & 128
                 if self._a != 0:
                     state = 36700
                     continue
-                
+
                 state = 36905
                 continue
-            
+
             elif state == 36905:
                 t = self._x
                 state = 36791
                 continue
-            
+
             elif state == 36910:
                 self._code37055(t)
                 self._a = self._a & 64
                 if self._a != 0:
                     state = 36905
                     continue
-                
+
                 state = 36700
                 continue
-            
+
             elif state == 36920:
                 self._code37055(t)
                 self._a = self._a & 8
@@ -933,12 +931,12 @@ class Reciter:
 
                 state = 36930
                 continue
-            
+
             elif state == 36930:
                 t = self._x
                 state = 36791
                 continue
-            
+
             elif state == 36935:
                 self._code37055(t)
                 self._a = self._a & 16
@@ -951,7 +949,7 @@ class Reciter:
                     state = 36700
                     continue
 
-                self._x = (self._x-1) & 0xFF  # X--;
+                self._x = (self._x - 1) & 0xFF  # X--;
                 self._a = self.input_copy[self._x]
                 if (self._a == 67) or (self._a == 83):
                     state = 36930
@@ -959,7 +957,7 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 36967:
                 self._code37055(t)
                 self._a = self._a & 4
@@ -979,7 +977,7 @@ class Reciter:
                 t = self._x
                 state = 36791
                 continue
-            
+
             elif state == 37004:
                 self._code37055(t)
                 self._a = self._a & 32
@@ -989,23 +987,27 @@ class Reciter:
 
                 state = 37014
                 continue
-            
+
             elif state == 37014:
                 t = self._x
                 state = 36791
                 continue
-            
+
             elif state == 37019:
                 self._x = t
-                self._x = (self._x-1) & 0xFF  # X--;
+                self._x = (self._x - 1) & 0xFF  # X--;
                 self._a = self.input_copy[self._x]
-                if (self._a == ord("E")) or (self._a == ord("I")) or (self._a == ord("Y")):
+                if (
+                    (self._a == ord("E"))
+                    or (self._a == ord("I"))
+                    or (self._a == ord("Y"))
+                ):
                     state = 37014
                     continue
 
                 state = 36700
                 continue
-            
+
             elif state == 37040:
                 self._code37055(t)
                 self._a = self._a & 32
@@ -1016,23 +1018,23 @@ class Reciter:
                 t = self._x
                 state = 37040
                 continue
-            
+
             elif state == 37077:
-                self._x = (m+1) & 0xFF
+                self._x = (m + 1) & 0xFF
                 self._a = self.input_copy[self._x]
                 if self._a != ord("E"):
                     state = 37157
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._y = self.input_copy[self._x]
-                self._x = (self._x-1) & 0xFF  # X--;
+                self._x = (self._x - 1) & 0xFF  # X--;
                 self._a = tab36376[self._y] & 128
                 if self._a == 0:
                     state = 37108
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a != ord("R"):
                     state = 37113
@@ -1040,12 +1042,12 @@ class Reciter:
 
                 state = 37108
                 continue
-            
+
             elif state == 37108:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37113:
                 if (self._a == 83) or (self._a == 68):  # // 'S' 'D'
                     state = 37108
@@ -1055,7 +1057,7 @@ class Reciter:
                     state = 37135
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a != 89:
                     state = 36700
@@ -1063,19 +1065,19 @@ class Reciter:
 
                 state = 37108
                 continue
-            
+
             elif state == 37135:
                 if self._a != 70:
                     state = 36700
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a != 85:
                     state = 36700
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a == 76:
                     state = 37108
@@ -1083,19 +1085,19 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 37157:
                 if self._a != 73:
                     state = 36700
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a != 78:
                     state = 36700
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if self._a == 71:
                     state = 37108
@@ -1103,15 +1105,15 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 37180:
                 self._a = r
                 m = self._a
                 state = 37184
                 continue
-            
+
             elif state == 37184:
-                self._y = (q+1) & 0xFF
+                self._y = (q + 1) & 0xFF
                 if self._y == k:
                     state = 37455
                     continue
@@ -1125,7 +1127,7 @@ class Reciter:
                     state = 37226
                     continue
 
-                self._x = (m+1) & 0xFF
+                self._x = (m + 1) & 0xFF
                 self._a = self.input_copy[self._x]
                 if self._a != h:
                     state = 36700
@@ -1134,7 +1136,7 @@ class Reciter:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37226:
                 self._a = h
                 if self._a == 32:  # // ' '
@@ -1167,7 +1169,7 @@ class Reciter:
 
                 # Error
                 return None
-            
+
             elif state == 37295:
                 self._code37066(m)
                 self._a = self._a & 128
@@ -1177,12 +1179,12 @@ class Reciter:
 
                 state = 37305
                 continue
-            
+
             elif state == 37305:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37310:
                 self._code37066(m)
                 self._a = self._a & 64
@@ -1192,7 +1194,7 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 37320:
                 self._code37066(m)
                 self._a = self._a & 8
@@ -1202,12 +1204,12 @@ class Reciter:
 
                 state = 37330
                 continue
-            
+
             elif state == 37330:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37335:
                 self._code37066(m)
                 self._a = self._a & 16
@@ -1220,7 +1222,7 @@ class Reciter:
                     state = 36700
                     continue
 
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if (self._a == 67) or (self._a == 83):
                     state = 37330
@@ -1228,7 +1230,7 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 37367:
                 self._code37066(m)
                 self._a = self._a & 4
@@ -1248,7 +1250,7 @@ class Reciter:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37404:
                 self._code37066(m)
                 self._a = self._a & 32
@@ -1258,15 +1260,15 @@ class Reciter:
 
                 state = 37414
                 continue
-            
+
             elif state == 37414:
                 m = self._x
                 state = 37184
                 continue
-            
+
             elif state == 37419:
                 self._x = m
-                self._x = (self._x+1) & 0xFF  # X++;
+                self._x = (self._x + 1) & 0xFF  # X++;
                 self._a = self.input_copy[self._x]
                 if (self._a == 69) or (self._a == 73) or (self._a == 89):
                     state = 37414
@@ -1274,7 +1276,7 @@ class Reciter:
 
                 state = 36700
                 continue
-            
+
             elif state == 37440:
                 self._code37066(m)
                 self._a = self._a & 32
@@ -1285,7 +1287,7 @@ class Reciter:
                 m = self._x
                 state = 37440
                 continue
-            
+
             elif state == 37455:
                 self._y = k
                 n = r
@@ -1295,13 +1297,13 @@ class Reciter:
 
                 state = 37461
                 continue
-            
+
             elif state == 37461:
                 self._a = self._get_rule_byte(g, self._y)
                 h = self._a
                 self._a = self._a & 127
                 if self._a != ord("="):
-                    j = (j+1) & 0xFF
+                    j = (j + 1) & 0xFF
                     self._x = j
                     input_text[self._x] = self._a
 
@@ -1311,8 +1313,8 @@ class Reciter:
 
                 state = 36554
                 continue
-            
+
             elif state == 37485:
-                self._y = (self._y+1) & 0xFF  # Y++;
+                self._y = (self._y + 1) & 0xFF  # Y++;
                 state = 37461
                 continue

@@ -6,49 +6,56 @@ Processor takes phonemes and prepares output parameters.
 from __future__ import annotations
 
 
-stress_input_table = bytes([
-    ord(item)
-    for item
-    in [
-        '*', '1', '2', '3', '4', '5', '6', '7', '8'
-    ]
-])
+# stress_input_table = bytes([
+#     ord(item)
+#     for item
+#     in [
+#         '*', '1', '2', '3', '4', '5', '6', '7', '8'
+#     ]
+# ])
+stress_input_table = b"*12345678"
 
-sign_input_table1 = bytes([
-    ord(item)
-    for item
-    in [
-        ' ', '.', '?', ',', '-', 'I', 'I', 'E',
-        'A', 'A', 'A', 'A', 'U', 'A', 'I', 'E',
-        'U', 'O', 'R', 'L', 'W', 'Y', 'W', 'R',
-        'L', 'W', 'Y', 'M', 'N', 'N', 'D', 'Q',
-        'S', 'S', 'F', 'T', '/', '/', 'Z', 'Z',
-        'V', 'D', 'C', '*', 'J', '*', '*', '*',
-        'E', 'A', 'O', 'A', 'O', 'U', 'B', '*',
-        '*', 'D', '*', '*', 'G', '*', '*', 'G',
-        '*', '*', 'P', '*', '*', 'T', '*', '*',
-        'K', '*', '*', 'K', '*', '*', 'U', 'U',
-        'U'
-    ]
-])
+# sign_input_table1 = bytes([
+#     ord(item)
+#     for item
+#     in [
+#         ' ', '.', '?', ',', '-', 'I', 'I', 'E',
+#         'A', 'A', 'A', 'A', 'U', 'A', 'I', 'E',
+#         'U', 'O', 'R', 'L', 'W', 'Y', 'W', 'R',
+#         'L', 'W', 'Y', 'M', 'N', 'N', 'D', 'Q',
+#         'S', 'S', 'F', 'T', '/', '/', 'Z', 'Z',
+#         'V', 'D', 'C', '*', 'J', '*', '*', '*',
+#         'E', 'A', 'O', 'A', 'O', 'U', 'B', '*',
+#         '*', 'D', '*', '*', 'G', '*', '*', 'G',
+#         '*', '*', 'P', '*', '*', 'T', '*', '*',
+#         'K', '*', '*', 'K', '*', '*', 'U', 'U',
+#         'U'
+#     ]
+# ])
+sign_input_table1 = (
+    b" .?,-IIEAAAAUAIEUORLWYWRLWYMNNDQSSFT//ZZVDC*J***EAOAOUB**D**G**G**P**T**K**K**UUU"
+)
 
-sign_input_table2 = bytes([
-    ord(item)
-    for item
-    in [
-        '*', '*', '*', '*', '*', 'Y', 'H', 'H',
-        'E', 'A', 'H', 'O', 'H', 'X', 'X', 'R',
-        'X', 'H', 'X', 'X', 'X', 'X', 'H', '*',
-        '*', '*', '*', '*', '*', 'X', 'X', '*',
-        '*', 'H', '*', 'H', 'H', 'X', '*', 'H',
-        '*', 'H', 'H', '*', '*', '*', '*', '*',
-        'Y', 'Y', 'Y', 'W', 'W', 'W', '*', '*',
-        '*', '*', '*', '*', '*', '*', '*', 'X',
-        '*', '*', '*', '*', '*', '*', '*', '*',
-        '*', '*', '*', 'X', '*', '*', 'L', 'M',
-        'N'
-    ]
-])
+# sign_input_table2 = bytes([
+#     ord(item)
+#     for item
+#     in [
+#         '*', '*', '*', '*', '*', 'Y', 'H', 'H',
+#         'E', 'A', 'H', 'O', 'H', 'X', 'X', 'R',
+#         'X', 'H', 'X', 'X', 'X', 'X', 'H', '*',
+#         '*', '*', '*', '*', '*', 'X', 'X', '*',
+#         '*', 'H', '*', 'H', 'H', 'X', '*', 'H',
+#         '*', 'H', 'H', '*', '*', '*', '*', '*',
+#         'Y', 'Y', 'Y', 'W', 'W', 'W', '*', '*',
+#         '*', '*', '*', '*', '*', '*', '*', 'X',
+#         '*', '*', '*', '*', '*', '*', '*', '*',
+#         '*', '*', '*', 'X', '*', '*', 'L', 'M',
+#         'N'
+#     ]
+# ])
+sign_input_table2 = (
+    b"*****YHHEAHOHXXRXHXXXXH******XX**H*HHX*H*HH*****YYYWWW*********X***********X**LMN"
+)
 
 
 # Ind  | phoneme |  flags   |
@@ -170,46 +177,46 @@ FLAG_LIQUIC = 0x1000  # /* liquic consonant */
 FLAG_FRICATIVE = 0x2000
 
 flags = [
-    0x8000 , 0xC100 , 0xC100 , 0xC100 , 0xC100 , 0x00A4 , 0x00A4 , 0x00A4 ,
-    0x00A4 , 0x00A4 , 0x00A4 , 0x0084 , 0x0084 , 0x00A4 , 0x00A4 , 0x0084 ,
-    0x0084 , 0x0084 , 0x0084 , 0x0084 , 0x0084 , 0x0084 , 0x0044 , 0x1044 ,
-    0x1044 , 0x1044 , 0x1044 , 0x084C , 0x0C4C , 0x084C , 0x0448 , 0x404C ,
-
-    0x2440 , 0x2040 , 0x2040 , 0x2440 , 0x0040 , 0x0040 , 0x2444 , 0x2044 ,
-    0x2044 , 0x2444 , 0x2048 , 0x2040 , 0x004C , 0x2044 , 0x0000 , 0x0000 ,
-    0x00B4 , 0x00B4 , 0x00B4 , 0x0094 , 0x0094 , 0x0094 , 0x004E , 0x004E ,
-
-    0x004E , 0x044E , 0x044E , 0x044E , 0x004E , 0x004E , 0x004E , 0x004E ,
-    0x004E , 0x004E , 0x004B , 0x004B , 0x004B , 0x044B , 0x044B , 0x044B ,
-    0x004B , 0x004B , 0x004B , 0x004B , 0x004B , 0x004B , 0x0080 , 0x00C1 ,
-    0x00C1
+    0x8000, 0xC100, 0xC100, 0xC100, 0xC100, 0x00A4, 0x00A4, 0x00A4,
+    0x00A4, 0x00A4, 0x00A4, 0x0084, 0x0084, 0x00A4, 0x00A4, 0x0084,
+    0x0084, 0x0084, 0x0084, 0x0084, 0x0084, 0x0084, 0x0044, 0x1044,
+    0x1044, 0x1044, 0x1044, 0x084C, 0x0C4C, 0x084C, 0x0448, 0x404C,
+    0x2440, 0x2040, 0x2040, 0x2440, 0x0040, 0x0040, 0x2444, 0x2044,
+    0x2044, 0x2444, 0x2048, 0x2040, 0x004C, 0x2044, 0x0000, 0x0000,
+    0x00B4, 0x00B4, 0x00B4, 0x0094, 0x0094, 0x0094, 0x004E, 0x004E,
+    0x004E, 0x044E, 0x044E, 0x044E, 0x004E, 0x004E, 0x004E, 0x004E,
+    0x004E, 0x004E, 0x004B, 0x004B, 0x004B, 0x044B, 0x044B, 0x044B,
+    0x004B, 0x004B, 0x004B, 0x004B, 0x004B, 0x004B, 0x0080, 0x00C1,
+    0x00C1,
 ]
 
-phoneme_stressed_length_table = bytes([
-    0x00 , 0x12 , 0x12 , 0x12 , 8 ,0xB , 9 ,0xB ,
-    0xE ,0xF ,0xB , 0x10 ,0xC , 6 , 6 ,0xE ,
-    0xC ,0xE ,0xC ,0xB , 8 , 8 ,0xB ,0xA ,
-    9 , 8 , 8 , 8 , 8 , 8 , 3 , 5 ,
-    2 , 2 , 2 , 2 , 2 , 2 , 6 , 6 ,
-    8 , 6 , 6 , 2 , 9 , 4 , 2 , 1 ,
-    0xE ,0xF ,0xF ,0xF ,0xE ,0xE , 8 , 2 ,
-    2 , 7 , 2 , 1 , 7 , 2 , 2 , 7 ,
-    2 , 2 , 8 , 2 , 2 , 6 , 2 , 2 ,
-    7 , 2 , 4 , 7 , 1 , 4 , 5 , 5
-])
+# phoneme_stressed_length_table = bytes([
+#     0x00 , 0x12 , 0x12 , 0x12 , 8 ,0xB , 9 ,0xB ,
+#     0xE ,0xF ,0xB , 0x10 ,0xC , 6 , 6 ,0xE ,
+#     0xC ,0xE ,0xC ,0xB , 8 , 8 ,0xB ,0xA ,
+#     9 , 8 , 8 , 8 , 8 , 8 , 3 , 5 ,
+#     2 , 2 , 2 , 2 , 2 , 2 , 6 , 6 ,
+#     8 , 6 , 6 , 2 , 9 , 4 , 2 , 1 ,
+#     0xE ,0xF ,0xF ,0xF ,0xE ,0xE , 8 , 2 ,
+#     2 , 7 , 2 , 1 , 7 , 2 , 2 , 7 ,
+#     2 , 2 , 8 , 2 , 2 , 6 , 2 , 2 ,
+#     7 , 2 , 4 , 7 , 1 , 4 , 5 , 5
+# ])
+phoneme_stressed_length_table = b"\x00\x12\x12\x12\x08\x0b\t\x0b\x0e\x0f\x0b\x10\x0c\x06\x06\x0e\x0c\x0e\x0c\x0b\x08\x08\x0b\n\t\x08\x08\x08\x08\x08\x03\x05\x02\x02\x02\x02\x02\x02\x06\x06\x08\x06\x06\x02\t\x04\x02\x01\x0e\x0f\x0f\x0f\x0e\x0e\x08\x02\x02\x07\x02\x01\x07\x02\x02\x07\x02\x02\x08\x02\x02\x06\x02\x02\x07\x02\x04\x07\x01\x04\x05\x05"
 
-phoneme_length_table = bytes([
-    0 , 0x12 , 0x12 , 0x12 , 8 , 8 , 8 , 8 ,
-    8 ,0xB , 6 ,0xC ,0xA , 5 , 5 ,0xB ,
-    0xA ,0xA ,0xA , 9 , 8 , 7 , 9 , 7 ,
-    6 , 8 , 6 , 7 , 7 , 7 , 2 , 5 ,
-    2 , 2 , 2 , 2 , 2 , 2 , 6 , 6 ,
-    7 , 6 , 6 , 2 , 8 , 3 , 1 , 0x1E ,
-    0xD ,0xC ,0xC ,0xC ,0xE , 9 , 6 , 1 ,
-    2 , 5 , 1 , 1 , 6 , 1 , 2 , 6 ,
-    1 , 2 , 8 , 2 , 2 , 4 , 2 , 2 ,
-    6 , 1 , 4 , 6 , 1 , 4 , 0xC7 , 0xFF
-])
+# phoneme_length_table = bytes([
+#     0 , 0x12 , 0x12 , 0x12 , 8 , 8 , 8 , 8 ,
+#     8 ,0xB , 6 ,0xC ,0xA , 5 , 5 ,0xB ,
+#     0xA ,0xA ,0xA , 9 , 8 , 7 , 9 , 7 ,
+#     6 , 8 , 6 , 7 , 7 , 7 , 2 , 5 ,
+#     2 , 2 , 2 , 2 , 2 , 2 , 6 , 6 ,
+#     7 , 6 , 6 , 2 , 8 , 3 , 1 , 0x1E ,
+#     0xD ,0xC ,0xC ,0xC ,0xE , 9 , 6 , 1 ,
+#     2 , 5 , 1 , 1 , 6 , 1 , 2 , 6 ,
+#     1 , 2 , 8 , 2 , 2 , 4 , 2 , 2 ,
+#     6 , 1 , 4 , 6 , 1 , 4 , 0xC7 , 0xFF
+# ])
+phoneme_length_table = b"\x00\x12\x12\x12\x08\x08\x08\x08\x08\x0b\x06\x0c\n\x05\x05\x0b\n\n\n\t\x08\x07\t\x07\x06\x08\x06\x07\x07\x07\x02\x05\x02\x02\x02\x02\x02\x02\x06\x06\x07\x06\x06\x02\x08\x03\x01\x1e\r\x0c\x0c\x0c\x0e\t\x06\x01\x02\x05\x01\x01\x06\x01\x02\x06\x01\x02\x08\x02\x02\x04\x02\x02\x06\x01\x04\x06\x01\x04\xc7\xff"
 
 PR = 23
 PD = 57
@@ -220,19 +227,18 @@ END = 255
 
 class Processor:
     """Processor takes phonemes and prepares output parameters.
-    
+
     Args:
         debug:
             Set or clear debug flag.
     """
-    
-    def __init__(self, debug: bool=False):
+
+    def __init__(self, debug: bool = False):
         self.phoneme_index = bytearray(256)
         self.phoneme_index[255] = 32  # //to prevent buffer overflow
         self.phoneme_length = bytearray(256)
         self.stress = bytearray(256)  # //numbers from 0 to 8
         self.debug = debug
-
 
     def _print_phonemes(self):
         print("===========================================")
@@ -244,31 +250,33 @@ class Processor:
         i = 0
         while (self.phoneme_index[i] != 255) and (i < 255):
             if self.phoneme_index[i] < 81:
-                print(f" {self.phoneme_index[i]:3}      {chr(sign_input_table1[self.phoneme_index[i]])}{chr(sign_input_table2[self.phoneme_index[i]])}      {self.phoneme_length[i]:3}       {self.stress[i]}")
+                print(
+                    f" {self.phoneme_index[i]:3}      {chr(sign_input_table1[self.phoneme_index[i]])}{chr(sign_input_table2[self.phoneme_index[i]])}      {self.phoneme_length[i]:3}       {self.stress[i]}"
+                )
             else:
-                print(f" {self.phoneme_index[i]:3}      ??      {self.phoneme_length[i]:3}       {self.stress[i]}")
+                print(
+                    f" {self.phoneme_index[i]:3}      ??      {self.phoneme_length[i]:3}       {self.stress[i]}"
+                )
 
             i += 1
-        
+
         print("===========================================")
         print()
 
-
-    def _insert(self, position: int, mem60: int, mem59: int, mem58: int):
+    def _insert(self, position: int, x: int, y: int, z: int):
         i = 253  # // ML : always keep last safe-guarding 255
         while i >= position:
-            self.phoneme_index[i+1] = self.phoneme_index[i]
-            self.phoneme_length[i+1] = self.phoneme_length[i]
-            self.stress[i+1] = self.stress[i]
+            self.phoneme_index[i + 1] = self.phoneme_index[i]
+            self.phoneme_length[i + 1] = self.phoneme_length[i]
+            self.stress[i + 1] = self.stress[i]
             i -= 1
 
-        self.phoneme_index[position] = mem60
-        self.phoneme_length[position] = mem59
-        self.stress[position] = mem58
-
+        self.phoneme_index[position] = x
+        self.phoneme_length[position] = y
+        self.stress[position] = z
 
     def _insert_breath(self):
-        mem54 = 255
+        x = 255
         len = 0
         pos = 0
 
@@ -280,24 +288,23 @@ class Processor:
                     pass
                 elif not (flags[index] & FLAG_PUNCT):
                     if index == 0:
-                        mem54 = pos
+                        x = pos
                 else:
                     len = 0
-                    pos = (pos+1) & 0xFF
+                    pos = (pos + 1) & 0xFF
                     self._insert(pos, BREAK, 0, 0)
             else:
-                pos = mem54
+                pos = x
                 self.phoneme_index[pos] = 31  # // 'Q*' glottal stop
                 self.phoneme_length[pos] = 4
                 self.stress[pos] = 0
 
                 len = 0
-                pos = (pos+1) & 0xFF
+                pos = (pos + 1) & 0xFF
                 self._insert(pos, BREAK, 0, 0)
-            
-            pos = (pos+1) & 0xFF
+
+            pos = (pos + 1) & 0xFF
             index = self.phoneme_index[pos]
-    
 
     # // Iterates through the phoneme buffer, copying the stress value from
     # // the following phoneme under the following circumstance:
@@ -314,25 +321,24 @@ class Processor:
     def _copy_stress(self):
         # // loop through all the phonemes to be output
         pos = 0
-        
+
         y = self.phoneme_index[pos]
         while y != END:
             # // if CONSONANT_FLAG set, skip - only vowels get stress
             if flags[y] & 64:
-                y = self.phoneme_index[(pos+1) & 0xFF]
+                y = self.phoneme_index[(pos + 1) & 0xFF]
 
                 # // if the following phoneme is the end, or a vowel, skip
                 if (y != END) and ((flags[y] & 128) != 0):
                     # // get the stress value at the next position
-                    y = self.stress[(pos+1) & 0xFF]
+                    y = self.stress[(pos + 1) & 0xFF]
                     if y and not (y & 128):
                         # // if next phoneme is stressed, and a VOWEL OR ER
                         # // copy stress from next phoneme to this one
-                        self.stress[pos] = (y+1) & 0xFF
+                        self.stress[pos] = (y + 1) & 0xFF
 
-            pos = (pos+1) & 0xFF
+            pos = (pos + 1) & 0xFF
             y = self.phoneme_index[pos]
-        
 
     def _full_match(self, sign1, sign2):
         y = 0
@@ -352,10 +358,9 @@ class Processor:
                 if (a != ord("*")) and (a == sign2):
                     return y
 
-            y = (y+1) & 0xFF
-        
-        return None
+            y = (y + 1) & 0xFF
 
+        return None
 
     def _wild_match(self, sign1):
         y = 0
@@ -369,37 +374,36 @@ class Processor:
                 if sign_input_table1[y] == sign1:
                     return y
 
-            y = (y+1) & 0xFF
-        
+            y = (y + 1) & 0xFF
+
         return None
-        
 
     # // The input[] buffer contains a string of phonemes and stress markers along
     # // the lines of:
     # //
     # //     DHAX KAET IHZ AH5GLIY. <0x9B>
     # //
-    # // The byte 0x9B marks the end of the buffer. Some phonemes are 2 bytes 
-    # // long, such as "DH" and "AX". Others are 1 byte long, such as "T" and "Z". 
+    # // The byte 0x9B marks the end of the buffer. Some phonemes are 2 bytes
+    # // long, such as "DH" and "AX". Others are 1 byte long, such as "T" and "Z".
     # // There are also stress markers, such as "5" and ".".
     # //
     # // The first character of the phonemes are stored in the table signInputTable1[].
     # // The second character of the phonemes are stored in the table signInputTable2[].
     # // The stress characters are arranged in low to high stress order in stressInputTable[].
-    # // 
+    # //
     # // The following process is used to parse the input[] buffer:
-    # // 
+    # //
     # // Repeat until the <0x9B> character is reached:
     # //
     # //        First, a search is made for a 2 character match for phonemes that do not
-    # //        end with the '*' (wildcard) character. On a match, the index of the phoneme 
+    # //        end with the '*' (wildcard) character. On a match, the index of the phoneme
     # //        is added to phonemeIndex[] and the buffer position is advanced 2 bytes.
     # //
     # //        If this fails, a search is made for a 1 character match against all
-    # //        phoneme names ending with a '*' (wildcard). If this succeeds, the 
+    # //        phoneme names ending with a '*' (wildcard). If this succeeds, the
     # //        phoneme is added to phonemeIndex[] and the buffer position is advanced
     # //        1 byte.
-    # // 
+    # //
     # //        If this fails, search for a 1 character match in the stressInputTable[].
     # //        If this succeeds, the stress value is placed in the last stress[] table
     # //        at the same index of the last added phoneme, and the buffer position is
@@ -431,7 +435,7 @@ class Processor:
 
         sign1 = input_buf[srcpos]
         while sign1 != 155:  # // 155 is end of line marker
-            srcpos = (srcpos+1) & 0xFF
+            srcpos = (srcpos + 1) & 0xFF
             sign2 = input_buf[srcpos]
 
             match_f = self._full_match(sign1, sign2)
@@ -439,43 +443,49 @@ class Processor:
             if match_f is not None:
                 # // Matched both characters (no wildcards)
                 self.phoneme_index[position] = match_f
-                position = (position+1) %256
-                srcpos = (srcpos+1) & 0xFF  # // Skip the second character of the input as we've matched it
+                position = (position + 1) & 0xFF
+                srcpos = (
+                    srcpos + 1
+                ) & 0xFF  # // Skip the second character of the input as we've matched it
             elif match_w is not None:
                 # // Matched just the first character (with second character matching '*'
                 self.phoneme_index[position] = match_w
-                position = (position+1) %256
+                position = (position + 1) & 0xFF
             else:
                 # // Should be a stress character. Search through the
                 # // stress table backwards.
                 match_t = 8  # // End of stress table. FIXME: Don't hardcode.
                 while (sign1 != stress_input_table[match_t]) and (match_t > 0):
                     match_t -= 1
-                
+
                 if match_t == 0:
                     return 0  # // failure
-                
-                self.stress[(position-1) & 0xFF] = match_t  # // Set stress for prior phoneme
+
+                self.stress[(position - 1) & 0xFF] = (
+                    match_t  # // Set stress for prior phoneme
+                )
 
             sign1 = input_buf[srcpos]
-        
+
         self.phoneme_index[position] = END
         return 1
-        
-        
+
     # //change phonemelength depedendent on stress
     def _set_phoneme_length(self):
         position = 0
         while self.phoneme_index[position] != 255:
             a = self.stress[position]
-            if (a == 0) or ((a&128) != 0):
-                self.phoneme_length[position] = phoneme_length_table[self.phoneme_index[position]]
+            if (a == 0) or ((a & 128) != 0):
+                self.phoneme_length[position] = phoneme_length_table[
+                    self.phoneme_index[position]
+                ]
             else:
-                self.phoneme_length[position] = phoneme_stressed_length_table[self.phoneme_index[position]]
-            
+                self.phoneme_length[position] = phoneme_stressed_length_table[
+                    self.phoneme_index[position]
+                ]
+
             position += 1
 
-        
     def _code41240(self):
         pos = 0
 
@@ -485,49 +495,58 @@ class Processor:
             if flags[index] & FLAG_STOPCONS:
                 if flags[index] & FLAG_PLOSIVE:
                     x = pos
-                    x = (x+1) & 0xFF
+                    x = (x + 1) & 0xFF
                     while not self.phoneme_index[x]:
-                        x = (x+1) & 0xFF  # /* Skip pause */
-                    
+                        x = (x + 1) & 0xFF  # /* Skip pause */
+
                     a = self.phoneme_index[x]
                     if a != END:
                         if (flags[a] & 8) or (a == 36) or (a == 37):
                             # // '/H' '/X'
-                            pos = (pos+1) & 0xFF
+                            pos = (pos + 1) & 0xFF
                             continue
-                
-                self._insert((pos+1) & 0xFF, (index+1) & 0xFF, phoneme_length_table[(index+1) & 0xFF], self.stress[pos])
-                self._insert((pos+2) & 0xFF, (index+2) & 0xFF, phoneme_length_table[(index+2) & 0xFF], self.stress[pos])
-                pos = (pos+2) & 0xFF
-            
-            pos = (pos+1) & 0xFF
 
+                self._insert(
+                    (pos + 1) & 0xFF,
+                    (index + 1) & 0xFF,
+                    phoneme_length_table[(index + 1) & 0xFF],
+                    self.stress[pos],
+                )
+                self._insert(
+                    (pos + 2) & 0xFF,
+                    (index + 2) & 0xFF,
+                    phoneme_length_table[(index + 2) & 0xFF],
+                    self.stress[pos],
+                )
+                pos = (pos + 2) & 0xFF
+
+            pos = (pos + 1) & 0xFF
 
     def _change_rule(self, position, m, descr):
         if self.debug:
             print(f"RULE: {descr}")
-        
-        self.phoneme_index[position] = 13  # //rule
-        self._insert(position+1, m, 0, self.stress[position])
 
+        self.phoneme_index[position] = 13  # //rule
+        self._insert(position + 1, m, 0, self.stress[position])
 
     def _drule(self, string):
         if self.debug:
             print(f"RULE: {string}")
 
-
     def _drule_pre(self, descr, x):
         self._drule(descr)
         if self.debug:
             print("PRE")
-            print(f"phoneme {x} ({chr(sign_input_table1[self.phoneme_index[x]])}{chr(sign_input_table2[self.phoneme_index[x]])}) length {self.phoneme_length[x]}")
-
+            print(
+                f"phoneme {x} ({chr(sign_input_table1[self.phoneme_index[x]])}{chr(sign_input_table2[self.phoneme_index[x]])}) length {self.phoneme_length[x]}"
+            )
 
     def _drule_post(self, x):
         if self.debug:
             print("POST")
-            print(f"phoneme {x} ({chr(sign_input_table1[self.phoneme_index[x]])}{chr(sign_input_table2[self.phoneme_index[x]])}) length {self.phoneme_length[x]}")
-
+            print(
+                f"phoneme {x} ({chr(sign_input_table1[self.phoneme_index[x]])}{chr(sign_input_table2[self.phoneme_index[x]])}) length {self.phoneme_length[x]}"
+            )
 
     # // Rewrites the phonemes using the following rules:
     # //
@@ -554,37 +573,34 @@ class Processor:
     # //       <UNSTRESSED VOWEL> D <PAUSE>  -> <UNSTRESSED VOWEL> DX <PAUSE>
     def _rule_alveolar_uw(self, x):
         # // ALVEOLAR flag set?
-        if flags[self.phoneme_index[x-1]] & FLAG_ALVEOLAR:
+        if flags[self.phoneme_index[x - 1]] & FLAG_ALVEOLAR:
             self._drule("<ALVEOLAR> UW -> <ALVEOLAR> UX")
             self.phoneme_index[x] = 16
 
-
     def _rule_ch(self, x):
         self._drule("CH -> CH CH+1")
-        self._insert(x+1, 43, 0, self.stress[x])
-
+        self._insert(x + 1, 43, 0, self.stress[x])
 
     def _rule_j(self, x):
         self._drule("J -> J J+1")
-        self._insert(x+1, 45, 0, self.stress[x])
-
+        self._insert(x + 1, 45, 0, self.stress[x])
 
     def _rule_g(self, pos):
         # // G <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> GX <VOWEL OR DIPTHONG NOT ENDING WITH IY>
         # // Example: GO
-        index = self.phoneme_index[pos+1]
+        index = self.phoneme_index[pos + 1]
 
         # // If dipthong ending with YX, move continue processing next phoneme
         if (index != END) and ((flags[index] & FLAG_DIP_YX) == 0):
             # // replace G with GX and continue processing next phoneme
-            self._drule("G <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> GX <VOWEL OR DIPTHONG NOT ENDING WITH IY>")
+            self._drule(
+                "G <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> GX <VOWEL OR DIPTHONG NOT ENDING WITH IY>"
+            )
             self.phoneme_index[pos] = 63  # // 'GX'
-
 
     def _change(self, pos, val, rule):
         self._drule(rule)
         self.phoneme_index[pos] = val
-
 
     def _rule_dipthong(self, p, pf, pos):
         # // <DIPTHONG ENDING WITH WX> -> <DIPTHONG ENDING WITH WX> WX
@@ -592,15 +608,15 @@ class Processor:
         # // Example: OIL, COW
 
         # // If ends with IY, use YX, else use WX
-        a =  21 if pf & FLAG_DIP_YX else 20  # // 'WX' = 20 'YX' = 21
+        a = 21 if pf & FLAG_DIP_YX else 20  # // 'WX' = 20 'YX' = 21
 
         # // Insert at WX or YX following, copying the stress
         if a == 20:
             self._drule("insert WX following dipthong NOT ending in IY sound")
         elif a == 21:
             self._drule("insert YX following dipthong ending in IY sound")
-        
-        self._insert(pos+1, a, 0, self.stress[pos])
+
+        self._insert(pos + 1, a, 0, self.stress[pos])
 
         if p == 53:
             # // Example: NEW, DEW, SUE, ZOO, THOO, TOO
@@ -612,26 +628,25 @@ class Processor:
             # // Example: JAY
             self._rule_j(pos)
 
-
     def _parser2(self):
         pos = 0
 
         if self.debug:
             print("Parser2")
-        
+
         p = self.phoneme_index[pos]
         while p != END:
             if self.debug:
                 print(f"{pos}: {chr(sign_input_table1[p])}{chr(sign_input_table2[p])}")
-            
+
             if p == 0:
                 # // Is phoneme pause?
-                pos = (pos+1) & 0xFF
+                pos = (pos + 1) & 0xFF
                 p = self.phoneme_index[pos]
                 continue
 
             pf = flags[p]
-            prior = self.phoneme_index[pos-1]
+            prior = self.phoneme_index[pos - 1]
 
             if pf & FLAG_DIPTHONG:
                 self._rule_dipthong(p, pf, pos)
@@ -648,20 +663,22 @@ class Processor:
                 # // RULE:
                 # //       <STRESSED VOWEL> <SILENCE> <STRESSED VOWEL> -> <STRESSED VOWEL> <SILENCE> Q <VOWEL>
                 # // EXAMPLE: AWAY EIGHT
-                if not self.phoneme_index[pos+1]:
+                if not self.phoneme_index[pos + 1]:
                     # // If following phoneme is a pause, get next
-                    p = self.phoneme_index[pos+2]
-                    if (p != END) and (flags[p] & FLAG_VOWEL) and self.stress[pos+2]:
-                        self._drule("Insert glottal stop between two stressed vowels with space between them")
-                        self._insert(pos+2, 31, 0, 0)  # // 31 = 'Q'
+                    p = self.phoneme_index[pos + 2]
+                    if (p != END) and (flags[p] & FLAG_VOWEL) and self.stress[pos + 2]:
+                        self._drule(
+                            "Insert glottal stop between two stressed vowels with space between them"
+                        )
+                        self._insert(pos + 2, 31, 0, 0)  # // 31 = 'Q'
             elif p == PR:
                 # // RULES FOR PHONEMES BEFORE R
                 if prior == PT:
                     # // Example: TRACK
-                    self._change(pos-1, 42, "T R -> CH R")
+                    self._change(pos - 1, 42, "T R -> CH R")
                 elif prior == PD:
                     # // Example: DRY
-                    self._change(pos-1, 44, "D R -> J R")
+                    self._change(pos - 1, 44, "D R -> J R")
                 elif flags[prior] & FLAG_VOWEL:
                     # // Example: ART
                     self._change(pos, 18, "<VOWEL> R -> <VOWEL> RX")
@@ -681,14 +698,18 @@ class Processor:
                     # // 'K'
                     # // K <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> KX <VOWEL OR DIPTHONG NOT ENDING WITH IY>
                     # // Example: COW
-                    y = self.phoneme_index[pos+1]
+                    y = self.phoneme_index[pos + 1]
                     # // If at end, replace current phoneme with KX
-                    if ((y == END) or (flags[y] & FLAG_DIP_YX) == 0):
+                    if (y == END) or (flags[y] & FLAG_DIP_YX) == 0:
                         # // VOWELS AND DIPTHONGS ENDING WITH IY SOUND flag set?
-                        self._change(pos, 75, "K <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> KX <VOWEL OR DIPTHONG NOT ENDING WITH IY>")
+                        self._change(
+                            pos,
+                            75,
+                            "K <VOWEL OR DIPTHONG NOT ENDING WITH IY> -> KX <VOWEL OR DIPTHONG NOT ENDING WITH IY>",
+                        )
                         p = 75
                         pf = flags[p]
-                
+
                 # // Replace with softer version?
                 if (flags[p] & FLAG_PLOSIVE) and (prior == 32):
                     # // 'S'
@@ -700,8 +721,10 @@ class Processor:
                     # // Examples: SPY, STY, SKY, SCOWL
 
                     if self.debug:
-                        print(f"RULE: S* {chr(sign_input_table1[p])}{chr(sign_input_table2[p])} -> S* {chr(sign_input_table1[p-12])}{chr(sign_input_table2[p-12])}")
-                    
+                        print(
+                            f"RULE: S* {chr(sign_input_table1[p])}{chr(sign_input_table2[p])} -> S* {chr(sign_input_table1[p-12])}{chr(sign_input_table2[p-12])}"
+                        )
+
                     self.phoneme_index[pos] = p - 12
                 elif not (pf & FLAG_PLOSIVE):
                     p = self.phoneme_index[pos]
@@ -714,7 +737,7 @@ class Processor:
                     elif p == 44:
                         # // Example: JAY
                         self._rule_j(pos)
-                
+
                 if p == 69 or p == 57:
                     # // 'T', 'D'
                     # // RULE: Soften T following vowel
@@ -722,20 +745,27 @@ class Processor:
                     # //       <UNSTRESSED VOWEL> T <PAUSE> -> <UNSTRESSED VOWEL> DX <PAUSE>
                     # //       <UNSTRESSED VOWEL> D <PAUSE>  -> <UNSTRESSED VOWEL> DX <PAUSE>
                     # // Example: PARTY, TARDY
-                    if flags[self.phoneme_index[pos-1]] & FLAG_VOWEL:
-                        p = self.phoneme_index[pos+1]
+                    if flags[self.phoneme_index[pos - 1]] & FLAG_VOWEL:
+                        p = self.phoneme_index[pos + 1]
                         if not p:
-                            p = self.phoneme_index[pos+2]
+                            p = self.phoneme_index[pos + 2]
 
                         if p == END:
                             break
-                        
-                        if (p != END) and (flags[p] & FLAG_VOWEL) and not self.stress[pos+1]:
-                            self._change(pos, 30, "Soften T or D following vowel or ER and preceding a pause -> DX")
 
-            pos = (pos+1) & 0xFF
+                        if (
+                            (p != END)
+                            and (flags[p] & FLAG_VOWEL)
+                            and not self.stress[pos + 1]
+                        ):
+                            self._change(
+                                pos,
+                                30,
+                                "Soften T or D following vowel or ER and preceding a pause -> DX",
+                            )
+
+            pos = (pos + 1) & 0xFF
             p = self.phoneme_index[pos]
-
 
     # // Applies various rules that adjust the lengths of phonemes
     # //
@@ -760,17 +790,17 @@ class Processor:
         while index != END:
             # // not punctuation?
             if (flags[index] & FLAG_PUNCT) == 0:
-                x = (x+1) & 0xFF
+                x = (x + 1) & 0xFF
                 index = self.phoneme_index[x]
                 continue
 
             loopIndex = x
 
-            x = (x-1) & 0xFF
+            x = (x - 1) & 0xFF
             while x and not (flags[self.phoneme_index[x]] & FLAG_VOWEL):
                 # // back up while not a vowel
-                x = (x-1) & 0xFF
-            
+                x = (x - 1) & 0xFF
+
             if x == 0:
                 break
 
@@ -783,19 +813,24 @@ class Processor:
                 index = self.phoneme_index[x]
 
                 # // test for fricative/unvoiced or not voiced
-                if (not (flags[index] & FLAG_FRICATIVE)) or (flags[index] & FLAG_VOICED):
+                if (not (flags[index] & FLAG_FRICATIVE)) or (
+                    flags[index] & FLAG_VOICED
+                ):
                     # //nochmal �berpr�fen
                     a = self.phoneme_length[x]
                     # // change phoneme length to (length * 1.5) + 1
-                    self._drule_pre("Lengthen <FRICATIVE> or <VOICED> between <VOWEL> and <PUNCTUATION> by 1.5", x)
+                    self._drule_pre(
+                        "Lengthen <FRICATIVE> or <VOICED> between <VOWEL> and <PUNCTUATION> by 1.5",
+                        x,
+                    )
                     self.phoneme_length[x] = (a >> 1) + a + 1
                     self._drule_post(x)
 
-                x = (x+1) & 0xFF
-            
-            x = (x+1) & 0xFF
+                x = (x + 1) & 0xFF
+
+            x = (x + 1) & 0xFF
             index = self.phoneme_index[x]
-        
+
         # // Similar to the above routine, but shorten vowels under some circumstances
 
         # // Loop through all phonemes
@@ -805,16 +840,21 @@ class Processor:
             x = loopIndex
 
             if flags[index] & FLAG_VOWEL:
-                index = self.phoneme_index[loopIndex+1]
+                index = self.phoneme_index[loopIndex + 1]
 
                 if (index != END) and not (flags[index] & FLAG_CONSONANT):
                     if (index == 18) or (index == 19):
                         # // 'RX', 'LX'
-                        index = self.phoneme_index[loopIndex+2]
+                        index = self.phoneme_index[loopIndex + 2]
 
                         if (index != END) and (flags[index] & FLAG_CONSONANT):
-                            self._drule_pre("<VOWEL> <RX | LX> <CONSONANT> - decrease length of vowel by 1", loopIndex)
-                            self.phoneme_length[loopIndex] = (self.phoneme_length[loopIndex]-1) & 0xFF
+                            self._drule_pre(
+                                "<VOWEL> <RX | LX> <CONSONANT> - decrease length of vowel by 1",
+                                loopIndex,
+                            )
+                            self.phoneme_length[loopIndex] = (
+                                self.phoneme_length[loopIndex] - 1
+                            ) & 0xFF
                             self._drule_post(loopIndex)
                 else:
                     # // Got here if not <VOWEL>
@@ -827,69 +867,83 @@ class Processor:
                             # // unvoiced plosive
                             # // RULE: <VOWEL> <UNVOICED PLOSIVE>
                             # // <VOWEL> <P*, T*, K*, KX>
-                            self._drule_pre("<VOWEL> <UNVOICED PLOSIVE> - decrease vowel by 1/8th", loopIndex)
-                            self.phoneme_length[loopIndex] -= (self.phoneme_length[loopIndex] >> 3)
+                            self._drule_pre(
+                                "<VOWEL> <UNVOICED PLOSIVE> - decrease vowel by 1/8th",
+                                loopIndex,
+                            )
+                            self.phoneme_length[loopIndex] -= (
+                                self.phoneme_length[loopIndex] >> 3
+                            )
                             self._drule_post(loopIndex)
                     else:
                         # drule_pre("<VOWEL> <VOICED CONSONANT> - increase vowel by 1/2 + 1", X-1)
-                        self._drule_pre("<VOWEL> <VOICED CONSONANT> - increase vowel by 1/2 + 1", x)
+                        self._drule_pre(
+                            "<VOWEL> <VOICED CONSONANT> - increase vowel by 1/2 + 1", x
+                        )
                         # // decrease length
                         a = self.phoneme_length[loopIndex]
-                        self.phoneme_length[loopIndex] = (a >> 2) + a + 1  # // 5/4*A + 1
+                        self.phoneme_length[loopIndex] = (
+                            (a >> 2) + a + 1
+                        )  # // 5/4*A + 1
                         self._drule_post(loopIndex)
             elif (flags[index] & FLAG_NASAL) != 0:
                 # // nasal?
                 # // RULE: <NASAL> <STOP CONSONANT>
                 # //       Set punctuation length to 6
                 # //       Set stop consonant length to 5
-                x = (x+1) & 0xFF
+                x = (x + 1) & 0xFF
                 index = self.phoneme_index[x]
                 if index != END and (flags[index] & FLAG_STOPCONS):
-                    self._drule("<NASAL> <STOP CONSONANT> - set nasal = 5, consonant = 6")
+                    self._drule(
+                        "<NASAL> <STOP CONSONANT> - set nasal = 5, consonant = 6"
+                    )
                     self.phoneme_length[x] = 6  # // set stop consonant length to 6
-                    self.phoneme_length[x-1] = 5  # // set nasal length to 5
+                    self.phoneme_length[x - 1] = 5  # // set nasal length to 5
             elif flags[index] & FLAG_STOPCONS:
                 # // (voiced) stop consonant?
                 # // RULE: <VOICED STOP CONSONANT> {optional silence} <STOP CONSONANT>
                 # //       Shorten both to (length/2 + 1)
 
                 # // move past silence
-                x = (x+1) & 0xFF
+                x = (x + 1) & 0xFF
                 index = self.phoneme_index[x]
                 while index == 0:
-                    x = (x+1) & 0xFF
+                    x = (x + 1) & 0xFF
                     index = self.phoneme_index[x]
-                
+
                 if (index != END) and (flags[index] & FLAG_STOPCONS):
                     # // FIXME, this looks wrong?
                     # // RULE: <UNVOICED STOP CONSONANT> {optional silence} <STOP CONSONANT>
-                    self._drule("<UNVOICED STOP CONSONANT> {optional silence} <STOP CONSONANT> - shorten both to 1/2 + 1")
+                    self._drule(
+                        "<UNVOICED STOP CONSONANT> {optional silence} <STOP CONSONANT> - shorten both to 1/2 + 1"
+                    )
                     self.phoneme_length[x] = (self.phoneme_length[x] >> 1) + 1
-                    self.phoneme_length[loopIndex] = (self.phoneme_length[loopIndex] >> 1) + 1
+                    self.phoneme_length[loopIndex] = (
+                        self.phoneme_length[loopIndex] >> 1
+                    ) + 1
                     x = loopIndex
             elif flags[index] & FLAG_LIQUIC:
                 # // liquic consonant?
                 # // RULE: <VOICED NON-VOWEL> <DIPTHONG>
                 # //       Decrease <DIPTHONG> by 2
-                index = self.phoneme_index[x-1]  # // prior phoneme
+                index = self.phoneme_index[x - 1]  # // prior phoneme
 
                 # // FIXME: The debug code here breaks the rule.
                 # // prior phoneme a stop consonant>
                 # if (flags[index] & FLAG_STOPCONS) != 0:
                 self._drule_pre("<LIQUID CONSONANT> <DIPTHONG> - decrease by 2", x)
-                
+
                 self.phoneme_length[x] -= 2  # // 20ms
                 self._drule_post(x)
 
-            loopIndex = (loopIndex+1) & 0xFF
+            loopIndex = (loopIndex + 1) & 0xFF
             index = self.phoneme_index[loopIndex]
-
 
     def process(self, input_phonemes: str | bytes | bytearray) -> bool:
         """Process the phonemes and prepare output parameters.
 
         When it is successful, the output parameters are stored in:
-        
+
         - `self.phoneme_index`
         - `self.phoneme_length`
         - `self.stress`
@@ -901,7 +955,7 @@ class Processor:
         Returns:
             Whether the phonemes are processed successfully.
         """
-        
+
         if isinstance(input_phonemes, str):
             # Convert string to bytes
             input_phonemes = input_phonemes.encode("utf-8")
@@ -909,15 +963,15 @@ class Processor:
             raise Exception("The type of input text must be str, bytes or bytearray.")
 
         input_phonemes = bytearray(input_phonemes) + bytearray(b"\x9b")
-        
+
         x = 0
-        
+
         if not self._parser1(input_phonemes):
             return False
-        
+
         if self.debug:
             self._print_phonemes()
-        
+
         self._parser2()
         self._copy_stress()
         self._set_phoneme_length()
@@ -928,16 +982,16 @@ class Processor:
         flag_loop_init = True
         while (x != 0) or flag_loop_init:
             flag_loop_init = False
-            
+
             if self.phoneme_index[x] > 80:
                 self.phoneme_index[x] = 255
                 break  # // error: delete all behind it
 
             x += 1
-        
+
         self._insert_breath()
 
         if self.debug:
             self._print_phonemes()
-        
+
         return True
