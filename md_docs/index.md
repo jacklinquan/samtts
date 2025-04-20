@@ -10,7 +10,7 @@
 
 [Documentation](https://jacklinquan.github.io/samtts)
 
-A Python port of Software Automatic Mouth Test-To-Speech program.
+A Python port of Software Automatic Mouth Text-To-Speech program.
 
 - Ported by: Quan Lin
 - License: None
