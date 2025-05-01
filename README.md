@@ -37,8 +37,16 @@ and the refactorings by
 
 ## Installation
 
+To install `samtts` along with `simpleaudio` and CLI:
+
 ```shell
 pip install samtts
+```
+
+To install `samtts` without `simpleaudio` and CLI:
+
+```shell
+pip install --no-deps samtts
 ```
 
 ---
