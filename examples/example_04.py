@@ -1,6 +1,5 @@
 from samtts import SamTTS
 
-
 sam = SamTTS()
 sam.play(
     "AY5 KAEN TAO5K LAYK AH LIH5TUL OH5LD LEY5DIY. SWIY5TIY.",

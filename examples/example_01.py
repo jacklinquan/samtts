@@ -1,6 +1,5 @@
 from samtts import SamTTS
 
-
 sam = SamTTS(debug=True)
 sam.play(
     "To be or not to be, that is the question.",

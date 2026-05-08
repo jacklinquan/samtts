@@ -128,7 +128,7 @@
     <div class="doc doc-contents first">
 
         <p>SAMTTS</p>
-<p>A Python port of Software Automatic Mouth Test-To-Speech program.</p>
+<p>A Python port of Software Automatic Mouth Text-To-Speech program.</p>
 <ul>
 <li>Ported by: Quan Lin</li>
 <li>License: None</li>
@@ -142,7 +142,9 @@
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -163,6 +165,7 @@
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>Reciter converts text to phonemes.</p>
@@ -202,7 +205,8 @@
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -283,6 +287,7 @@
 
     </div>
 
+
 </div>
 
 <div class="doc doc-object doc-class">
@@ -297,6 +302,7 @@
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>Processor takes phonemes and prepares output parameters.</p>
@@ -336,7 +342,8 @@
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -423,6 +430,7 @@
 
     </div>
 
+
 </div>
 
 <div class="doc doc-object doc-class">
@@ -437,6 +445,7 @@
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>Renderer takes the phoneme parameters and renders sound waveform.</p>
@@ -536,7 +545,8 @@
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -703,6 +713,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
 
     </div>
 
+
 </div>
 
 <div class="doc doc-object doc-class">
@@ -717,6 +728,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>SamTTS combines Reciter, Processor and Renderer together.</p>
@@ -816,7 +828,8 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -1263,7 +1276,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
 
 
 <h4 id="samtts.SamTTS.play" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">samtts</span><span class="o">.</span><span class="n">SamTTS</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">phonetic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mouth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">throat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sing_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">iter_segments_from_paragraph</span><span class="o">=</span><span class="n">iter_by_punctuations</span><span class="p">,</span> <span class="n">play_audio_data</span><span class="o">=</span><span class="n">play_audio_data_with_simpleaudio</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">samtts</span><span class="o">.</span><span class="n">SamTTS</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">phonetic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mouth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">throat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sing_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">iter_segments_from_paragraph</span><span class="o">=</span><span class="n">iter_by_punctuations</span><span class="p">,</span> <span class="n">play_audio_data</span><span class="o">=</span><span class="n">play_audio_data_with_pyaudio</span><span class="p">)</span></code>
 
 </h4>
 
@@ -1376,7 +1389,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
             <li>
               <b><code>play_audio_data</code></b>
                   (<code><span title="typing.Callable">Callable</span></code>, default:
-                      <code><span title="samtts.samtts.play_audio_data_with_simpleaudio">play_audio_data_with_simpleaudio</span></code>
+                      <code><span title="samtts.samtts.play_audio_data_with_pyaudio">play_audio_data_with_pyaudio</span></code>
 )
               –
               <div class="doc-md-description">
@@ -1404,7 +1417,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
 
 
 <h4 id="samtts.SamTTS.async_play" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">samtts</span><span class="o">.</span><span class="n">SamTTS</span><span class="o">.</span><span class="n">async_play</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">phonetic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mouth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">throat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sing_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">iter_segments_from_paragraph</span><span class="o">=</span><span class="n">iter_by_punctuations</span><span class="p">,</span> <span class="n">async_play_audio_data</span><span class="o">=</span><span class="n">async_play_audio_data_with_simpleaudio</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">samtts</span><span class="o">.</span><span class="n">SamTTS</span><span class="o">.</span><span class="n">async_play</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">phonetic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mouth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">throat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sing_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">iter_segments_from_paragraph</span><span class="o">=</span><span class="n">iter_by_punctuations</span><span class="p">,</span> <span class="n">async_play_audio_data</span><span class="o">=</span><span class="n">async_play_audio_data_with_pyaudio</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -1521,7 +1534,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
             <li>
               <b><code>async_play_audio_data</code></b>
                   (<code><span title="typing.Awaitable">Awaitable</span></code>, default:
-                      <code><span title="samtts.samtts.async_play_audio_data_with_simpleaudio">async_play_audio_data_with_simpleaudio</span></code>
+                      <code><span title="samtts.samtts.async_play_audio_data_with_pyaudio">async_play_audio_data_with_pyaudio</span></code>
 )
               –
               <div class="doc-md-description">
@@ -1550,6 +1563,7 @@ And the length of the valid data is stored in <code>self.buffer_end</code>.</p>
   </div>
 
     </div>
+
 
 </div>
 

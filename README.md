@@ -19,7 +19,13 @@ A Python port of Software Automatic Mouth Text-To-Speech program.
 This project is not under any open source software license.
 Use it at your own risk.
 
-It is tested on Windows with `Python 3.11.9`.
+It is tested on Windows with `Python 3.12.10`.
+
+---
+
+## Change
+
+- v0.3.0: Switched from `simpleaudio` to `pyaudio` backend.
 
 ---
 
@@ -37,13 +43,13 @@ and the refactorings by
 
 ## Installation
 
-To install `samtts` along with `simpleaudio` and CLI:
+To install `samtts` along with `pyaudio` and CLI:
 
 ```shell
 pip install samtts
 ```
 
-To install `samtts` without `simpleaudio` and CLI:
+To install `samtts` without `pyaudio` and CLI:
 
 ```shell
 pip install --no-deps samtts
@@ -183,8 +189,8 @@ SamTTS().save(
 )
 ```
 
-By default `SamTTS` plays audio with `simpleaudio` backend.
-In case `simpleaudio` does not work for your platform,
+By default `SamTTS` plays audio with `pyaudio` backend.
+In case `pyaudio` does not work for your platform,
 you can design your own play audio function
 to play audio with other audio backends:
 
@@ -211,8 +217,38 @@ does not depend on any 3rd party or even built-in libraries.
 For finer control, you can use them directly:
 
 ```python
-import simpleaudio
+import pyaudio
 from samtts import Reciter, Processor, Renderer
+
+def pyaudio_play_buffer(
+    audio_data: bytes | bytearray,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    p = pyaudio.PyAudio()
+
+    try:
+        if bytes_per_sample == 1:
+            audio_format = pyaudio.paUInt8
+        else:
+            audio_format = p.get_format_from_width(bytes_per_sample)
+
+        stream = p.open(
+            format=audio_format,
+            channels=num_channels,
+            rate=sample_rate,
+            output=True,
+        )
+
+        try:
+            stream.write(bytes(audio_data))
+        finally:
+            stream.stop_stream()
+            stream.close()
+
+    finally:
+        p.terminate()
 
 reciter = Reciter()
 processor = Processor()
@@ -230,14 +266,12 @@ renderer.render(processor)
 print(f"{renderer.buffer_end = }")
 print(f"The first 100 bytes in the buffer: {renderer.buffer[: 100]}")
 
-play_obj = simpleaudio.play_buffer(
+pyaudio_play_buffer(
     renderer.buffer[: renderer.buffer_end],
     num_channels=1,
     bytes_per_sample=1,
     sample_rate=22050,
 )
-while play_obj.is_playing():
-    pass
 ```
 
 There are more examples in
@@ -255,7 +289,7 @@ python -m samtts
 ```text
  Usage: python -m samtts [OPTIONS] [INPUT_STRING]
 
- A Python port of Software Automatic Mouth Test-To-Speech program.
+ A Python port of Software Automatic Mouth Text-To-Speech program.
  - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other  
  options are ignored.
  - If `--phonetic` is used, the input must be valid phonemes.

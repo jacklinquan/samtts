@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="A python port of Software Automatic Mouth Test-To-Speech program." /><meta name="author" content="Quan Lin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="A python port of Software Automatic Mouth Text-To-Speech program." /><meta name="author" content="Quan Lin" />
       <link rel="shortcut icon" href="img/favicon.ico" />
     <title>SAMTTS</title>
     <link rel="stylesheet" href="css/theme.css" />
@@ -43,6 +43,8 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#change">Change</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-is-sam">What is SAM?</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
@@ -115,7 +117,12 @@
 <p><strong><em>WARNING</em></strong>:
 This project is not under any open source software license.
 Use it at your own risk.</p>
-<p>It is tested on Windows with <code>Python 3.11.9</code>.</p>
+<p>It is tested on Windows with <code>Python 3.12.10</code>.</p>
+<hr />
+<h2 id="change">Change</h2>
+<ul>
+<li>v0.3.0: Switched from <code>simpleaudio</code> to <code>pyaudio</code> backend.</li>
+</ul>
 <hr />
 <h2 id="what-is-sam">What is SAM?</h2>
 <p>SAM is the Text-To-Speech (TTS) software SAM (Software Automatic Mouth) for the Commodore C64
@@ -126,7 +133,11 @@ and the refactorings by
 <a href="https://github.com/vidarh/SAM">Vidar Hokstad</a>.</p>
 <hr />
 <h2 id="installation">Installation</h2>
+<p>To install <code>samtts</code> along with <code>pyaudio</code> and CLI:</p>
 <pre><code class="language-shell">pip install samtts
+</code></pre>
+<p>To install <code>samtts</code> without <code>pyaudio</code> and CLI:</p>
+<pre><code class="language-shell">pip install --no-deps samtts
 </code></pre>
 <hr />
 <h2 id="usage">Usage</h2>
@@ -231,8 +242,8 @@ SamTTS().save(
     save_audio_data = save_audio_data_in_other_formats,
 )
 </code></pre>
-<p>By default <code>SamTTS</code> plays audio with <code>simpleaudio</code> backend.
-In case <code>simpleaudio</code> does not work for your platform,
+<p>By default <code>SamTTS</code> plays audio with <code>pyaudio</code> backend.
+In case <code>pyaudio</code> does not work for your platform,
 you can design your own play audio function
 to play audio with other audio backends:</p>
 <pre><code class="language-python">from samtts import SamTTS
@@ -254,8 +265,38 @@ SamTTS().play(
 <p>The core of <code>samtts</code> (<code>Reciter</code>, <code>Processor</code> and <code>Renderer</code>)
 does not depend on any 3rd party or even built-in libraries.
 For finer control, you can use them directly:</p>
-<pre><code class="language-python">import simpleaudio
+<pre><code class="language-python">import pyaudio
 from samtts import Reciter, Processor, Renderer
+
+def pyaudio_play_buffer(
+    audio_data: bytes | bytearray,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    p = pyaudio.PyAudio()
+
+    try:
+        if bytes_per_sample == 1:
+            audio_format = pyaudio.paUInt8
+        else:
+            audio_format = p.get_format_from_width(bytes_per_sample)
+
+        stream = p.open(
+            format=audio_format,
+            channels=num_channels,
+            rate=sample_rate,
+            output=True,
+        )
+
+        try:
+            stream.write(bytes(audio_data))
+        finally:
+            stream.stop_stream()
+            stream.close()
+
+    finally:
+        p.terminate()
 
 reciter = Reciter()
 processor = Processor()
@@ -273,14 +314,12 @@ renderer.render(processor)
 print(f&quot;{renderer.buffer_end = }&quot;)
 print(f&quot;The first 100 bytes in the buffer: {renderer.buffer[: 100]}&quot;)
 
-play_obj = simpleaudio.play_buffer(
+pyaudio_play_buffer(
     renderer.buffer[: renderer.buffer_end],
     num_channels=1,
     bytes_per_sample=1,
     sample_rate=22050,
 )
-while play_obj.is_playing():
-    pass
 </code></pre>
 <p>There are more examples in
 <a href="https://github.com/jacklinquan/samtts/tree/main/examples">examples</a>
@@ -291,7 +330,7 @@ directory.</p>
 </code></pre>
 <pre><code class="language-text"> Usage: python -m samtts [OPTIONS] [INPUT_STRING]
 
- A Python port of Software Automatic Mouth Test-To-Speech program.
+ A Python port of Software Automatic Mouth Text-To-Speech program.
  - If `--phoneme-info` or `--pitch-info` is used, the argument and all the other  
  options are ignored.
  - If `--phonetic` is used, the input must be valid phonemes.
@@ -492,5 +531,5 @@ in the USA.</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-04-05 03:10:56.208301+00:00
+Build Date UTC : 2026-05-08 01:47:02.129007+00:00
 -->

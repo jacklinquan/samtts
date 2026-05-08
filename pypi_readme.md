@@ -1,6 +1,6 @@
 # SAMTTS
 
-A Python port of Software Automatic Mouth Test-To-Speech program.
+A Python port of Software Automatic Mouth Text-To-Speech program.
 
 ---
 

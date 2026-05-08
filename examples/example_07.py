@@ -1,5 +1,37 @@
-import simpleaudio
+import pyaudio
 from samtts import Reciter, Processor, Renderer
+
+
+def pyaudio_play_buffer(
+    audio_data: bytes | bytearray,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    p = pyaudio.PyAudio()
+
+    try:
+        if bytes_per_sample == 1:
+            audio_format = pyaudio.paUInt8
+        else:
+            audio_format = p.get_format_from_width(bytes_per_sample)
+
+        stream = p.open(
+            format=audio_format,
+            channels=num_channels,
+            rate=sample_rate,
+            output=True,
+        )
+
+        try:
+            stream.write(bytes(audio_data))
+        finally:
+            stream.stop_stream()
+            stream.close()
+
+    finally:
+        p.terminate()
+
 
 reciter = Reciter()
 processor = Processor()
@@ -17,11 +49,9 @@ renderer.render(processor)
 print(f"{renderer.buffer_end = }")
 print(f"The first 100 bytes in the buffer: {renderer.buffer[: 100]}")
 
-play_obj = simpleaudio.play_buffer(
+pyaudio_play_buffer(
     renderer.buffer[: renderer.buffer_end],
     num_channels=1,
     bytes_per_sample=1,
     sample_rate=22050,
 )
-while play_obj.is_playing():
-    pass

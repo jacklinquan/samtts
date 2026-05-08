@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "samtts"
 # version is dynamic
-description = "A Python port of Software Automatic Mouth Test-To-Speech program."
+description = "A Python port of Software Automatic Mouth Text-To-Speech program."
 readme = "pypi_readme.md"
 authors = [{name = "Quan Lin", email = "jacklinquan@gmail.com"}]
 # license = {file = "LICENSE"}
@@ -14,12 +14,12 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["sam", "tts"]
-dependencies = ["simpleaudio", "typer"]
-requires-python = ">=3.8"
+dependencies = ["pyaudio", "typer"]
+requires-python = ">=3.9"
 dynamic = ["version"]
 
 [project.optional-dependencies]
-dev = ["simpleaudio", "typer", "pytest", "mkdocs", "mkdocstrings-python", "black"]
+dev = ["pyaudio", "typer", "pytest", "mkdocs", "mkdocstrings-python", "black"]
 
 [project.urls]
 Homepage = "https://github.com/jacklinquan/samtts"

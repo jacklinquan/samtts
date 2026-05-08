@@ -1,6 +1,5 @@
 from samtts import SamTTS
 
-
 sam = SamTTS()
 sam.play(
     "Twinkle",

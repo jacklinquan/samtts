@@ -9,7 +9,8 @@ try:
     from typing import Iterable, Callable, Awaitable
     import wave
     import asyncio
-    import simpleaudio
+    from threading import Thread
+    import pyaudio
 except ImportError:
     pass
 
@@ -78,13 +79,50 @@ def save_audio_data_in_wav_format(
         wav_file.writeframes(audio_data)
 
 
-def play_audio_data_with_simpleaudio(
+def pyaudio_play_buffer(
     audio_data: bytes | bytearray,
     num_channels: int = 1,
     bytes_per_sample: int = 1,
     sample_rate: int = 22050,
 ):
-    """Play audio data with simpleaudio.
+    p = pyaudio.PyAudio()
+
+    try:
+        if bytes_per_sample == 1:
+            audio_format = pyaudio.paUInt8
+        else:
+            audio_format = p.get_format_from_width(bytes_per_sample)
+
+        stream = p.open(
+            format=audio_format,
+            channels=num_channels,
+            rate=sample_rate,
+            output=True,
+        )
+
+        try:
+            stream.write(bytes(audio_data))
+        finally:
+            stream.stop_stream()
+            stream.close()
+
+    finally:
+        p.terminate()
+
+
+def pyaudio_play_buffer_async(*args, **kwargs):
+    thread = Thread(target=pyaudio_play_buffer, args=args, kwargs=kwargs, daemon=True)
+    thread.start()
+    return thread
+
+
+def play_audio_data_with_pyaudio(
+    audio_data: bytes | bytearray,
+    num_channels: int = 1,
+    bytes_per_sample: int = 1,
+    sample_rate: int = 22050,
+):
+    """Play audio data with pyaudio.
 
     Args:
         audio_data:
@@ -98,25 +136,21 @@ def play_audio_data_with_simpleaudio(
     """
 
     try:
-        play_obj = simpleaudio.play_buffer(
-            audio_data, num_channels, bytes_per_sample, sample_rate
-        )
-        while play_obj.is_playing():
-            pass
+        pyaudio_play_buffer(audio_data, num_channels, bytes_per_sample, sample_rate)
     except NameError as err:
         err.add_note(
-            "Please install `simpleaudio` or defind your own `play_audio_data` function."
+            "Please install `pyaudio` or defind your own `play_audio_data` function."
         )
         raise err
 
 
-async def async_play_audio_data_with_simpleaudio(
+async def async_play_audio_data_with_pyaudio(
     audio_data: bytes | bytearray,
     num_channels: int = 1,
     bytes_per_sample: int = 1,
     sample_rate: int = 22050,
 ):
-    """Async play audio data with simpleaudio.
+    """Async play audio data with pyaudio.
 
     Args:
         audio_data:
@@ -130,14 +164,14 @@ async def async_play_audio_data_with_simpleaudio(
     """
 
     try:
-        play_obj = simpleaudio.play_buffer(
+        thread = pyaudio_play_buffer_async(
             audio_data, num_channels, bytes_per_sample, sample_rate
         )
-        while play_obj.is_playing():
+        while thread.is_alive():
             await asyncio.sleep(0)
     except NameError as err:
         err.add_note(
-            "Please install `simpleaudio` or defind your own `play_audio_data` function."
+            "Please install `pyaudio` or defind your own `play_audio_data` function."
         )
         raise err
 
@@ -426,7 +460,7 @@ class SamTTS:
         sing_mode: bool | None = None,
         sample_rate: int = 22050,
         iter_segments_from_paragraph: Callable = iter_by_punctuations,
-        play_audio_data: Callable = play_audio_data_with_simpleaudio,
+        play_audio_data: Callable = play_audio_data_with_pyaudio,
     ):
         """Play audio data from a paragraph.
 
@@ -493,7 +527,7 @@ class SamTTS:
         sing_mode: bool | None = None,
         sample_rate: int = 22050,
         iter_segments_from_paragraph: Callable = iter_by_punctuations,
-        async_play_audio_data: Awaitable = async_play_audio_data_with_simpleaudio,
+        async_play_audio_data: Awaitable = async_play_audio_data_with_pyaudio,
     ):
         """Async play audio data from a paragraph.
 
